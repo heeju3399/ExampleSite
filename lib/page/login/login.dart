@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web/control/login.dart';
 
 
 class Login extends StatefulWidget {
@@ -13,8 +14,9 @@ class _LoginState extends State<Login> {
   bool aaa = false;
   Color btnColor = Colors.blueAccent;
   bool isChecked = false;
-  String textFiledId = '';
-  String textFiledPass = '';
+  final textFiledIdController = TextEditingController();
+  final textFiledPassController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class _LoginState extends State<Login> {
                 Container(
                     width: 300,
                     child: TextField(
+                      controller: textFiledIdController,
                         style: TextStyle(fontSize: 20),
                         decoration: const InputDecoration(
                             labelText: 'ID',
@@ -71,6 +74,7 @@ class _LoginState extends State<Login> {
                 Container(
                     width: 300,
                     child: TextField(
+                      controller: textFiledPassController,
                         style: TextStyle(fontSize: 20),
                         obscureText: true,
                         decoration: const InputDecoration(
@@ -100,7 +104,24 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.all(18.0),
                   child: InkWell(
                       onTap: () {
-                        print('login pass');
+                        //아이디 패스워드 가져오기
+                        String id = textFiledIdController.text;
+                        String pass = textFiledPassController.text;
+                        print('id : ${id.toLowerCase()} // pass : ${pass.toString()}');
+
+                        // LoginController.checkIdAndPass(id, pass).then((result){
+                        //   if(result){
+                        //     print('통과');
+                        //   }else{
+                        //     print('뭔가없음');
+                        //     _showDialog('빈칸을 채워주세요','아이디와 비밀번호를 입력해 주세요');
+                        //   }
+                        // });
+
+
+
+                        
+                        
                       },
                       onHover: (isis) {
                         if (isis) {
@@ -267,4 +288,21 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  void _showDialog(String title,String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 20,
+          shape: ContinuousRectangleBorder(
+              side: BorderSide(color: Colors.blueAccent),
+              borderRadius: BorderRadius.circular(30)),
+          title: new Text("$title"),
+          content: new Text("$content"),
+        );
+      },
+    );
+  }
+
 }
