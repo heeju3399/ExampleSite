@@ -1,0 +1,15 @@
+appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Padding(
+          padding: EdgeInsets.all(5),
+          child: Text('M a i n'),
+        ),
+        centerTitle: appBarCenterTitle,
+        actions: [
+          Padding(padding: EdgeInsets.all(5), child: TextButton(onPressed: () {}, child: Icon(Icons.person_outline_sharp, size: 40, color: Colors.white))),
+          Padding(padding: EdgeInsets.only(right: 50)),
+          Padding(padding: EdgeInsets.all(5), child: TextButton(                  onPressed: () {},                  child: Icon(                    Icons.login,                    size: 40,                    color: Colors.white,                  ))),
+          Padding(padding: EdgeInsets.only(right: 50)),
+          //logout 구현
+        ],
+      ),
