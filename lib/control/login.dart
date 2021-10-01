@@ -1,36 +1,36 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:web/control/nodeServer.dart';
 import 'package:web/model/login.dart';
 
-
 class LoginController {
+  static Future<Map> checkIdAndPass(String id, String pass) async {
+    String resultTitle = '';
+    String resultMessage = '';
+    int resultStateCode = 0;
+    Map resultMap = Map();
 
-  static bool checkIdAndPass (String id, String pass) {
-    bool result = false;
-    var parsed;
-    List<Login>? loginlist ;
-    String rere = '';
-
-
-    if(id == '' || pass == ''){
-
-    }else if(id.isEmpty || pass.isEmpty){
-
-    }else{
-      //패쓰!!아이디와 비밀번호가 회원가입한 번호와 맞는지 확인
-
-      Future signResult = NodeServer.signIn(id,pass);
-
+    if (id == '' || id.isEmpty || pass == '' || pass.isEmpty) {
+      resultMap = {'title': '빈칸을 채워주세요', 'message': '아이디와 비밀번호를 입력해 주세요'};
+    } else {
+      await NodeServer.signIn(id, pass).then((value) => {
+            resultTitle = value.title,
+            resultMessage = value.message,
+            resultStateCode = value.stateCode
+          });
       print('=============================');
-      print(loginlist!.toString());
-      result = true;
+      print('resultTitle : $resultTitle');
+      print('resultMessage : $resultMessage');
+      print('resultStateCode : $resultStateCode');
+      if (resultTitle == 'pass') {
+        //로그인 됨
+        resultMap = {'title':resultTitle, 'message':resultMessage};
+      } else if (resultTitle == 'no') {
+        //로근인 안됨
+        resultMap = {'title': '회원정보가 없습니다', 'message': '아이디와 비밀번호를 확인해 주세요'};
+      }
     }
 
-
-
-    return result;
+    return resultMap;
   }
 
   List<Login> parsePhotos(String responseBody) {
@@ -38,8 +38,4 @@ class LoginController {
 
     return parsed.map<Login>((json) => Login.fromJson(json)).toList();
   }
-
-
-
-
 }

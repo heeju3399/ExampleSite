@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:web/control/login.dart';
+import 'package:web/exex/mainDashFailed.dart';
 
 
 class Login extends StatefulWidget {
@@ -75,6 +78,9 @@ class _LoginState extends State<Login> {
                     width: 300,
                     child: TextField(
                       controller: textFiledPassController,
+                        onSubmitted: (v){
+                          _logInOperation(context);
+                        },
                         style: TextStyle(fontSize: 20),
                         obscureText: true,
                         decoration: const InputDecoration(
@@ -105,23 +111,8 @@ class _LoginState extends State<Login> {
                   child: InkWell(
                       onTap: () {
                         //아이디 패스워드 가져오기
-                        String id = textFiledIdController.text;
-                        String pass = textFiledPassController.text;
-                        print('id : ${id.toLowerCase()} // pass : ${pass.toString()}');
+                        _logInOperation(context);
 
-                        // LoginController.checkIdAndPass(id, pass).then((result){
-                        //   if(result){
-                        //     print('통과');
-                        //   }else{
-                        //     print('뭔가없음');
-                        //     _showDialog('빈칸을 채워주세요','아이디와 비밀번호를 입력해 주세요');
-                        //   }
-                        // });
-
-
-
-                        
-                        
                       },
                       onHover: (isis) {
                         if (isis) {
@@ -303,6 +294,38 @@ class _LoginState extends State<Login> {
         );
       },
     );
+  }
+
+  void _logInOperation(BuildContext context) async {
+
+    await LoginController.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map){
+      print(map);
+      if(map.isNotEmpty){
+        if(map.values.first == 'pass'){
+          //넘기기
+          Navigator.of(context).pushNamed(MainDash.routeName);
+          textFiledPassController.clear();
+
+        }else{
+          _showDialog(map.values.first, map.values.last);
+          textFiledPassController.clear();
+
+        }
+      }
+    });
+
+  }
+
+  void ss (){
+    final Storage _localStorage = window.localStorage;
+
+    Future save(String id) async {
+      _localStorage['selected_id'] = id;
+    }
+    Future<String?> getId() async => _localStorage['selected_id'];
+    Future invalidate() async {
+      _localStorage.remove('selected_id');
+    }
   }
 
 }
