@@ -1,9 +1,6 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:web/control/login.dart';
 import 'package:web/exex/mainDashFailed.dart';
-
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -19,7 +16,6 @@ class _LoginState extends State<Login> {
   bool isChecked = false;
   final textFiledIdController = TextEditingController();
   final textFiledPassController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +45,7 @@ class _LoginState extends State<Login> {
                 Container(
                     width: 300,
                     child: TextField(
-                      controller: textFiledIdController,
+                        controller: textFiledIdController,
                         style: TextStyle(fontSize: 20),
                         decoration: const InputDecoration(
                             labelText: 'ID',
@@ -77,8 +73,8 @@ class _LoginState extends State<Login> {
                 Container(
                     width: 300,
                     child: TextField(
-                      controller: textFiledPassController,
-                        onSubmitted: (v){
+                        controller: textFiledPassController,
+                        onSubmitted: (v) {
                           _logInOperation(context);
                         },
                         style: TextStyle(fontSize: 20),
@@ -112,7 +108,6 @@ class _LoginState extends State<Login> {
                       onTap: () {
                         //아이디 패스워드 가져오기
                         _logInOperation(context);
-
                       },
                       onHover: (isis) {
                         if (isis) {
@@ -149,7 +144,10 @@ class _LoginState extends State<Login> {
                               isChecked = v!;
                             });
                           },
-                          title: Text('로그인유지',style: TextStyle(fontSize: 17,color: Colors.black),),
+                          title: Text(
+                            '로그인유지',
+                            style: TextStyle(fontSize: 17, color: Colors.black),
+                          ),
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.red,
                         )),
@@ -163,7 +161,10 @@ class _LoginState extends State<Login> {
                               print('????');
                             });
                           },
-                          title: new Text('아이디저장',style: TextStyle(fontSize: 17,color: Colors.black),),
+                          title: new Text(
+                            '아이디저장',
+                            style: TextStyle(fontSize: 17, color: Colors.black),
+                          ),
                           controlAffinity: ListTileControlAffinity.leading,
                           activeColor: Colors.red,
                         )),
@@ -177,7 +178,10 @@ class _LoginState extends State<Login> {
                       height: 60,
                       child: TextButton(
                         onPressed: () {},
-                        child: Text('회원가입',style: TextStyle(fontSize: 17,color: Colors.black),),
+                        child: Text(
+                          '회원가입',
+                          style: TextStyle(fontSize: 17, color: Colors.black),
+                        ),
                       ),
                     ),
                     Container(
@@ -185,14 +189,21 @@ class _LoginState extends State<Login> {
                       height: 60,
                       child: TextButton(
                         onPressed: () {},
-                        child: Text('아이디찾기',style: TextStyle(fontSize: 17,color: Colors.black),),
+                        child: Text(
+                          '아이디찾기',
+                          style: TextStyle(fontSize: 17, color: Colors.black),
+                        ),
                       ),
-                    ),Container(
+                    ),
+                    Container(
                       width: 120,
                       height: 60,
                       child: TextButton(
                         onPressed: () {},
-                        child: Text('비밀번호 찾기',style: TextStyle(fontSize: 17,color: Colors.black),),
+                        child: Text(
+                          '비밀번호 찾기',
+                          style: TextStyle(fontSize: 17, color: Colors.black),
+                        ),
                       ),
                     ),
                   ],
@@ -204,18 +215,27 @@ class _LoginState extends State<Login> {
                   width: 300,
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Spacer(flex: 1,),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset('./images/naver.ico'),
                         ),
-                        Spacer(flex: 5,),
-                        Text('네이버로 로그인',style: TextStyle(color: Colors.white,fontSize: 15),),
-                        Spacer(flex: 5,),
+                        Spacer(
+                          flex: 5,
+                        ),
+                        Text(
+                          '네이버로 로그인',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        Spacer(
+                          flex: 5,
+                        ),
                       ],
                     ),
                   ),
@@ -226,18 +246,27 @@ class _LoginState extends State<Login> {
                   width: 300,
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Spacer(flex: 1,),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset('./images/kakao.png'),
                         ),
-                        Spacer(flex: 5,),
-                        Text('카카오로 로그인',style: TextStyle(color: Colors.black,fontSize: 15),),
-                        Spacer(flex: 5,),
+                        Spacer(
+                          flex: 5,
+                        ),
+                        Text(
+                          '카카오로 로그인',
+                          style: TextStyle(color: Colors.black, fontSize: 15),
+                        ),
+                        Spacer(
+                          flex: 5,
+                        ),
                       ],
                     ),
                   ),
@@ -248,18 +277,27 @@ class _LoginState extends State<Login> {
                   width: 300,
                   alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Spacer(flex: 1,),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset('./images/google.png'),
                         ),
-                        Spacer(flex: 5,),
-                        Text('google로 로그인',style: TextStyle(color: Colors.white,fontSize: 15),),
-                        Spacer(flex: 5,),
+                        Spacer(
+                          flex: 5,
+                        ),
+                        Text(
+                          'google로 로그인',
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        Spacer(
+                          flex: 5,
+                        ),
                       ],
                     ),
                   ),
@@ -280,7 +318,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _showDialog(String title,String content) {
+  void _showDialog(String title, String content) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -297,35 +335,19 @@ class _LoginState extends State<Login> {
   }
 
   void _logInOperation(BuildContext context) async {
-
-    await LoginController.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map){
+    await LoginController.checkIdAndPass(
+            textFiledIdController.text, textFiledPassController.text).then((map) {
       print(map);
-      if(map.isNotEmpty){
-        if(map.values.first == 'pass'){
+      if (map.isNotEmpty) {
+        if (map.values.first == 'pass') {
           //넘기기
           Navigator.of(context).pushNamed(MainDash.routeName);
           textFiledPassController.clear();
-
-        }else{
+        } else {
           _showDialog(map.values.first, map.values.last);
           textFiledPassController.clear();
-
         }
       }
     });
-
   }
-
-  void ss (){
-    final Storage _localStorage = window.localStorage;
-
-    Future save(String id) async {
-      _localStorage['selected_id'] = id;
-    }
-    Future<String?> getId() async => _localStorage['selected_id'];
-    Future invalidate() async {
-      _localStorage.remove('selected_id');
-    }
-  }
-
 }
