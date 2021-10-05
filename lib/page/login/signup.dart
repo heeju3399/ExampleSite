@@ -1,27 +1,30 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:web/control/login.dart';
+import 'package:web/control/signUp.dart';
 import 'package:web/exex/mainDashFailed.dart';
-import 'package:web/page/login/signup.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-  static String routeName = '/Login';
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
+  static String routeName = '/SignUp';
 
   @override
-  _LoginState createState() => _LoginState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   bool aaa = false;
   Color btnColor = Colors.blueAccent;
   bool isChecked = false;
   final textFiledIdController = TextEditingController();
   final textFiledPassController = TextEditingController();
-  bool logInCircle = true;
-  bool overClick = true ;
+  final textFiledNameController = TextEditingController();
+  bool signUpCircle = true;
 
   @override
   Widget build(BuildContext context) {
+    print('signUp build Widget Pass');
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -72,13 +75,36 @@ class _LoginState extends State<Login> {
                     width: 300,
                     child: TextField(
                         controller: textFiledPassController,
-                        onSubmitted: (v) {
-                          _logInOperation(context);
-                        },
                         style: TextStyle(fontSize: 20),
                         obscureText: true,
                         decoration: const InputDecoration(
                             labelText: 'PASS',
+                            labelStyle: TextStyle(fontSize: 20),
+                            suffixStyle: TextStyle(fontSize: 20),
+                            hintStyle: TextStyle(fontSize: 20),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            )
+                            //border: OutlineInputBorder(),
+                            ))),
+                Container(
+                    width: 300,
+                    child: TextField(
+                        controller: textFiledNameController,
+                        onSubmitted: (v) {
+                          _signUpOperation(context);
+                        },
+                        style: TextStyle(fontSize: 20),
+                        decoration: const InputDecoration(
+                            labelText: 'Name',
                             labelStyle: TextStyle(fontSize: 20),
                             suffixStyle: TextStyle(fontSize: 20),
                             hintStyle: TextStyle(fontSize: 20),
@@ -101,10 +127,9 @@ class _LoginState extends State<Login> {
                       onTap: () {
                         //아이디 패스워드 가져오기
                         setState(() {
-                          logInCircle = !logInCircle;
+                          signUpCircle = !signUpCircle;
                         });
-
-                        _logInOperation(context);
+                        _signUpOperation(context);
                       },
                       onHover: (isis) {
                         if (isis) {
@@ -115,59 +140,15 @@ class _LoginState extends State<Login> {
                         setState(() {});
                       },
                       child: Container(
-                        width: 250,
-                        height: 60,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(color: btnColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-                        child: logInCircle
-                            ? Text(
-                                'LogIn',
-                                textScaleFactor: 2,
-                                style: TextStyle(color: Colors.white),
-                              )
-                            : CircularProgressIndicator(
-                                backgroundColor: Colors.white,
-                              ),
-                      )),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: 170,
-                        child: CheckboxListTile(
-                          value: isChecked,
-                          onChanged: (v) {
-                            setState(() {
-                              isChecked = v!;
-                            });
-                          },
-                          title: Text(
-                            '로그인유지',
-                            style: TextStyle(fontSize: 17, color: Colors.black),
-                          ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          activeColor: Colors.red,
-                        )),
-                    Container(
-                        width: 170,
-                        child: CheckboxListTile(
-                          value: isChecked,
-                          onChanged: (v) {
-                            setState(() {
-                              isChecked = v!;
-                              print('????');
-                            });
-                          },
-                          title: new Text(
-                            '아이디저장',
-                            style: TextStyle(fontSize: 17, color: Colors.black),
-                          ),
-                          controlAffinity: ListTileControlAffinity.leading,
-                          activeColor: Colors.red,
-                        )),
-                  ],
+                          width: 250,
+                          height: 60,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(color: btnColor, borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: signUpCircle ? Text(
+                            '회원가입',
+                            textScaleFactor: 2,
+                            style: TextStyle(color: Colors.white),
+                          ):CircularProgressIndicator(backgroundColor: Colors.white,))),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -177,10 +158,10 @@ class _LoginState extends State<Login> {
                       height: 60,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(SignUp.routeName);
+                          Navigator.of(context).pop();
                         },
                         child: Text(
-                          '회원가입',
+                          '로그인',
                           style: TextStyle(fontSize: 17, color: Colors.black),
                         ),
                       ),
@@ -209,7 +190,26 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
-                Divider(),
+                Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      color: Colors.black,
+                      width: 120,
+                      height: 1,
+                    ),
+                    Text(
+                      '간편회원가입',
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    ),
+                    Container(
+                      color: Colors.black,
+                      width: 120,
+                      height: 1,
+                    ),
+                  ],
+                )),
                 Container(
                   color: Colors.green,
                   height: 50,
@@ -231,7 +231,7 @@ class _LoginState extends State<Login> {
                           flex: 5,
                         ),
                         Text(
-                          '네이버로 로그인',
+                          '네이버로 회원가입',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Spacer(
@@ -262,7 +262,7 @@ class _LoginState extends State<Login> {
                           flex: 5,
                         ),
                         Text(
-                          '카카오로 로그인',
+                          '카카오로 회원가입',
                           style: TextStyle(color: Colors.black, fontSize: 15),
                         ),
                         Spacer(
@@ -293,7 +293,7 @@ class _LoginState extends State<Login> {
                           flex: 5,
                         ),
                         Text(
-                          'google로 로그인',
+                          'google로 회원가입',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                         Spacer(
@@ -332,28 +332,39 @@ class _LoginState extends State<Login> {
       },
     );
   }
+  bool overClick = true ;
+  void _signUpOperation(BuildContext context) async {
 
-  void _logInOperation(BuildContext context) async {
     if(overClick){
       overClick = false;
-      await LoginController.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map) {
-        print('map : $map');
+      await SignUpController.checkIdAndPassAndName(pass: textFiledPassController.text, name: textFiledNameController.text, id: textFiledIdController.text).then((map) {
+        print(' map ??????? $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
             //넘기기
-            Navigator.of(context).pushNamed(MainDash.routeName);
+            print('회원가입 ok');
+            Navigator.of(context).pushReplacementNamed(MainDash.routeName);
+
+            textFiledIdController.clear();
             textFiledPassController.clear();
+            textFiledNameController.clear();
+            setState(() {
+              signUpCircle = !signUpCircle;
+            });
 
           } else {
             _showDialog(map.values.first, map.values.last);
-            textFiledPassController.clear();
             setState(() {
-              logInCircle = !logInCircle;
+              signUpCircle = !signUpCircle;
             });
+            //textFiledPassController.clear();
+            //textFiledNameController.clear();
           }
         }
+
         overClick = true;
       });
+
     }
 
   }

@@ -27,6 +27,8 @@ class LoginController {
       } else if (resultTitle == 'no') {
         //로근인 안됨
         resultMap = {'title': '회원정보가 없습니다', 'message': '아이디와 비밀번호를 확인해 주세요'};
+      }else{
+        resultMap = {'title':resultTitle, 'message':resultMessage};
       }
     }
 

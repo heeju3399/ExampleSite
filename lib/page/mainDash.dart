@@ -5,6 +5,7 @@ import 'package:web/page/windowDash/header.dart';
 import '../responsive.dart';
 import 'windowDash/body.dart';
 
+
 class MainDash extends StatefulWidget {
   const MainDash({Key? key}) : super(key: key);
   static String routeName = '/MAIN_DASH';
@@ -16,6 +17,7 @@ class MainDash extends StatefulWidget {
 }
 
 class _MainDashState extends State<MainDash> {
+
   bool floatingBTN = false;
   bool appBarCenterTitle = true;
   final List<String> items = List<String>.generate(0, (i) => 'Item $i');
@@ -27,8 +29,17 @@ class _MainDashState extends State<MainDash> {
 
   @override
   void initState() {
+
     super.initState();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Navigator.of(context).pop();
+  }
+
+
 
   void getTextFiledString(Map map) async {
     print(map.toString());
@@ -44,9 +55,15 @@ class _MainDashState extends State<MainDash> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context) : isMobile(context)),
+      body: RawScrollbar(
+          thumbColor: Colors.white,
+          isAlwaysShown: true,
+          radius: Radius.circular(20),
+          thickness: 15,
+          child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context) : isMobile(context))),
       floatingActionButton: floatingBTN
           ? null
           : FloatingActionButton(
