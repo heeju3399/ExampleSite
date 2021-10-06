@@ -126,9 +126,7 @@ class _SignUpState extends State<SignUp> {
                   child: InkWell(
                       onTap: () {
                         //아이디 패스워드 가져오기
-                        setState(() {
-                          signUpCircle = !signUpCircle;
-                        });
+
                         _signUpOperation(context);
                       },
                       onHover: (isis) {
@@ -336,6 +334,9 @@ class _SignUpState extends State<SignUp> {
   void _signUpOperation(BuildContext context) async {
 
     if(overClick){
+      setState(() {
+        signUpCircle = !signUpCircle;
+      });
       overClick = false;
       await SignUpController.checkIdAndPassAndName(pass: textFiledPassController.text, name: textFiledNameController.text, id: textFiledIdController.text).then((map) {
         print(' map ??????? $map');
@@ -343,7 +344,7 @@ class _SignUpState extends State<SignUp> {
           if (map.values.first == 'pass') {
             //넘기기
             print('회원가입 ok');
-            Navigator.of(context).pushReplacementNamed(MainDash.routeName);
+            Navigator.of(context).pushNamed(MainDash.routeName);
 
             textFiledIdController.clear();
             textFiledPassController.clear();

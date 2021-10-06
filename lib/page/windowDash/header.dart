@@ -2,18 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:web/page/mainDash.dart';
 
+import 'Content/writhcontent.dart';
+
 class Header extends StatefulWidget {
-  const Header({Key? key}) : super(key: key);
+  const Header({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
 
   @override
-  _HeaderState createState() => _HeaderState();
+  _HeaderState createState() => _HeaderState(this.userId);
 }
 
 class _HeaderState extends State<Header> {
+
+  _HeaderState(this.userId);
+  final String userId;
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    bool loginCheck = false;
+    if(userId != 'LogIn'){//로그인 안했을때
+      loginCheck = true;
+    }
+
+    print('header build widget pass : $userId');
     return Container(
       alignment: Alignment.center,
       color: Colors.black,
@@ -96,10 +109,15 @@ class _HeaderState extends State<Header> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/Login');
+                      if(userId == 'LogIn'){
+                        Navigator.of(context).pushNamed('/Login');
+                      }else{//자신의 아이디로 로그인 했을때
+                        //프로필?
+                      }
+
                     },
                     child: Text(
-                      '로그인',
+                      '$userId',
                       textScaleFactor: 2,
                       style: TextStyle(color: Colors.white),
                     ),
@@ -111,10 +129,17 @@ class _HeaderState extends State<Header> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/WriteContentMain');
+                      if(loginCheck){
+                        Navigator.of(context).pushNamedAndRemoveUntil(WriteContentMain.routeName,(Route<dynamic> route) => false);
+                      }
+
                     },
-                    child: Icon(
+                    child: loginCheck ? Icon(
                       Ionicons.create,
+                      size: 40,
+                      color: Colors.white,
+                    ) : Icon(
+                      Ionicons.cloud,
                       size: 40,
                       color: Colors.white,
                     ),

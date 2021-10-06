@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/login.dart';
-import 'package:web/exex/mainDashFailed.dart';
 import 'package:web/page/login/signup.dart';
+import 'package:web/page/mainDash.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -20,8 +21,18 @@ class _LoginState extends State<Login> {
   bool logInCircle = true;
   bool overClick = true ;
 
+
+  @override
+  void dispose() {
+
+    super.dispose();
+    print('login dispose pass');
+    //Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('login build widget pass');
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -100,10 +111,6 @@ class _LoginState extends State<Login> {
                   child: InkWell(
                       onTap: () {
                         //아이디 패스워드 가져오기
-                        setState(() {
-                          logInCircle = !logInCircle;
-                        });
-
                         _logInOperation(context);
                       },
                       onHover: (isis) {
@@ -333,28 +340,39 @@ class _LoginState extends State<Login> {
     );
   }
 
+  bool checkshared = false;
   void _logInOperation(BuildContext context) async {
     if(overClick){
+      setState(() {
+        logInCircle = !logInCircle;
+      });
       overClick = false;
       await LoginController.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map) {
         print('map : $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
-            //넘기기
-            Navigator.of(context).pushNamed(MainDash.routeName);
-            textFiledPassController.clear();
-
+            setUserId();
           } else {
             _showDialog(map.values.first, map.values.last);
             textFiledPassController.clear();
-            setState(() {
-              logInCircle = !logInCircle;
-            });
+
           }
+          setState(() {
+            logInCircle = !logInCircle;
+          });
         }
+
         overClick = true;
       });
+
     }
 
+  }
+  void setUserId() async {
+    //SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //MainDash.of(context)!.setChartPageValue = {'textFiledString':'888888'};
+    //sharedPreferences.setString('userid', textFiledIdController.text);
+    print('1');
+    Navigator.of(context).pushNamedAndRemoveUntil(MainDash.routeName,(Route<dynamic> route) => false, arguments: textFiledIdController.text);
   }
 }

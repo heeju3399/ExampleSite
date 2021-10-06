@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web/exex/todo.dart';
 
 import 'package:web/page/windowDash/header.dart';
 
 import '../responsive.dart';
 import 'windowDash/body.dart';
 
-
 class MainDash extends StatefulWidget {
   const MainDash({Key? key}) : super(key: key);
+
   static String routeName = '/MAIN_DASH';
 
   static _MainDashState? of(BuildContext context) => context.findAncestorStateOfType<_MainDashState>();
@@ -17,32 +19,39 @@ class MainDash extends StatefulWidget {
 }
 
 class _MainDashState extends State<MainDash> {
-
   bool floatingBTN = false;
   bool appBarCenterTitle = true;
   final List<String> items = List<String>.generate(0, (i) => 'Item $i');
   Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
+  String userId = '로그인';
 
   set setChartPageValue(Map map) {
+    print('여기 통과?');
     getTextFiledString(map);
   }
 
   @override
   void initState() {
-
     super.initState();
+
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    Navigator.of(context).pop();
-  }
+  String getUserId() {
+    String result = 'LogIn';
+    final args = ModalRoute.of(context)!.settings.arguments;
+    print('args : $args');
+    if(args != null){
+      print('pass?');
+      result = args.toString();
+    }else{
+      result = 'LogIn';
+    }
+    return result;
 
+  }
 
 
   void getTextFiledString(Map map) async {
-    print(map.toString());
     bool mapIsEmpty = map.isNotEmpty;
     if (mapIsEmpty) {
       var firstKey = map.keys.first;
@@ -55,21 +64,29 @@ class _MainDashState extends State<MainDash> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: RawScrollbar(
-          thumbColor: Colors.white,
-          isAlwaysShown: true,
-          radius: Radius.circular(20),
-          thickness: 15,
-          child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context) : isMobile(context))),
-      floatingActionButton: floatingBTN
-          ? null
-          : FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.add),
-            ),
+    String userId = getUserId();
+    print('뭐지이건2222222 userid?> : $userId');
+    return WillPopScope(
+      onWillPop: () {
+        print('뭐지이건?');
+        Navigator.pop(context);
+        return Future(() => false);
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: RawScrollbar(
+            thumbColor: Colors.white,
+            isAlwaysShown: true,
+            radius: Radius.circular(20),
+            thickness: 15,
+            child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context))),
+        floatingActionButton: floatingBTN
+            ? null
+            : FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.add),
+              ),
+      ),
     );
   }
 
@@ -96,7 +113,7 @@ class _MainDashState extends State<MainDash> {
   }
 
   // //window
-  Widget isWindow(BuildContext context) {
+  Widget isWindow(BuildContext context, String userId) {
     floatingBTN = true;
     appBarCenterTitle = true;
     return Center(
@@ -109,7 +126,9 @@ class _MainDashState extends State<MainDash> {
           color: Colors.black,
           indent: 0,
         ),
-        Header(),
+        Header(
+          userId: userId,
+        ),
         Divider(
           height: 30,
           color: Colors.white12,

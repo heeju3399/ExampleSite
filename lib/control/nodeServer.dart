@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:web/model/login.dart';
 import 'package:web/model/signUp.dart';
+import 'package:web/model/writeContent.dart';
 
 class NodeServer {
   static Future<String> fetchPost() async {
@@ -12,8 +13,7 @@ class NodeServer {
     try {
       // response = await http.get(Uri.parse('http://172.30.1.19:3000/'),
       //     headers: {"userheader":"1234","uu":"k546565464564564564k"},);
-      response =
-          await http.post(Uri.parse('http://172.30.1.19:3000/'), headers: map);
+      response = await http.post(Uri.parse('http://172.30.1.19:3000/'), headers: map);
     } catch (e) {
       print(e);
     }
@@ -33,7 +33,38 @@ class NodeServer {
 
   void getUser() {}
 
-  void setContents() {}
+  static Future<bool> setContents(String content, String userId) async {
+    String flag = 'setcontent';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    var response;
+    String nowTime = DateTime.now().toString();
+    String visible = '1';
+
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "id": '$userId', "content": '$content', "flag": '$flag', "nowtime": '$nowTime', "visible": '$visible'};
+    ///////////////////////thus../////////////////////////////////////////////
+    try {
+      response = await http.post(Uri.parse('http://localhost:3000/setcontent'), headers: map);
+      //print('response : ${response.body}');
+      //print('response.statusCode : ${response.statusCode}');
+      int stateCode = response.statusCode;
+      print('200 pass');
+      if (stateCode == 200) {}
+      // Map<dynamic, dynamic> map2 = Map();
+      // var decode = jsonDecode(response.body);
+      // //print('decode : $decode');
+      // map2.addAll(map5);
+      // //print('map2 : $map2');
+      // logInResult = LogInResponse.fromJson(map2);
+      //logInResult = LogInResponse.fromJson(jsonDecode(response.body));
+      // print('logInResult : ${logInResult.title}');
+      // print('logInResult : ${logInResult.message}');
+      // print('logInResult : ${logInResult.stateCode}');
+    } catch (e) {
+      print(e);
+    }
+    return true;
+  }
 
   void getContents() {}
 
@@ -43,12 +74,7 @@ class NodeServer {
     var response;
     LogInResponse logInResult = LogInResponse(stateCode: 000, message: '서버 접속 불가', title: 'err');
     Map<String, String> map = Map();
-    map = {
-      "siteKey": '$siteKey',
-      "id": '$id',
-      "pass": '$pass',
-      "flag": '$flag'
-    };
+    map = {"siteKey": '$siteKey', "id": '$id', "pass": '$pass', "flag": '$flag'};
     try {
       response = await http.post(Uri.parse('http://localhost:3000/login'), headers: map);
       //print('response : ${response.body}');
@@ -74,18 +100,12 @@ class NodeServer {
     return logInResult;
   }
 
-  static Future<SignupResponse> signUp({required String id,required String pass,required String name}) async {
+  static Future<SignupResponse> signUp({required String id, required String pass, required String name}) async {
     //print('**************************************************');
     String flag = 'signup';
     String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
     Map<String, String> requestMap = Map();
-    requestMap = {
-      "siteKey": '$siteKey',
-      "id": '$id',
-      "pass": '$pass',
-      "name": '$name',
-      "flag": '$flag'
-    };
+    requestMap = {"siteKey": '$siteKey', "id": '$id', "pass": '$pass', "name": '$name', "flag": '$flag'};
     SignupResponse signUpResponse = SignupResponse(stateCode: 000, message: '서버 접속 불가', title: 'err');
 
     try {
