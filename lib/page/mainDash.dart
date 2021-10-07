@@ -17,7 +17,7 @@ class MainDash extends StatefulWidget {
 
 class _MainDashState extends State<MainDash> {
   _MainDashState({required this.userId});
-  final String userId;
+  String userId;
   bool floatingBTN = false;
   bool appBarCenterTitle = true;
   final List<String> items = List<String>.generate(0, (i) => 'Item $i');
@@ -30,20 +30,26 @@ class _MainDashState extends State<MainDash> {
     getTextFiledString(map);
   }
 
+  @override
+  void initState() {
+    MyShared.setUserId(userId);
 
+    super.initState();
+  }
 
-  // String getUserId() {
-  //   String result = 'LogIn';
-  //   final args = ModalRoute.of(context)!.settings.arguments;
-  //   print('args : $args');
-  //   if(args != null){
-  //     print('pass?');
-  //     result = args.toString();
-  //   }else{
-  //     result = 'LogIn';
-  //   }
-  //   return result;
-  // }
+  @override
+  void reassemble() async {
+    print('reassemble');
+    super.reassemble();
+    await MyShared.getUserId().then((value) => {
+      userId = value.toString(),
+      print(value)
+
+    });
+    print('??????????? : $userId');
+
+  }
+
 
   void getTextFiledString(Map map) async {
     bool mapIsEmpty = map.isNotEmpty;
@@ -63,7 +69,7 @@ class _MainDashState extends State<MainDash> {
       onWillPop: () {
         print('뭐지이건?');
         Navigator.pop(context);
-        return Future(() => false);
+        return Future(() => true);
       },
       child: Scaffold(
         backgroundColor: Colors.black,

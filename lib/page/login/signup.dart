@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:web/control/login.dart';
 import 'package:web/control/signUp.dart';
-import 'package:web/exex/mainDashFailed.dart';
+import 'package:web/page/mainDash.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -142,11 +139,15 @@ class _SignUpState extends State<SignUp> {
                           height: 60,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(color: btnColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-                          child: signUpCircle ? Text(
-                            '회원가입',
-                            textScaleFactor: 2,
-                            style: TextStyle(color: Colors.white),
-                          ):CircularProgressIndicator(backgroundColor: Colors.white,))),
+                          child: signUpCircle
+                              ? Text(
+                                  '회원가입',
+                                  textScaleFactor: 2,
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              : CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                ))),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -330,21 +331,23 @@ class _SignUpState extends State<SignUp> {
       },
     );
   }
-  bool overClick = true ;
-  void _signUpOperation(BuildContext context) async {
 
-    if(overClick){
+  bool overClick = true;
+  String userid = '';
+  void _signUpOperation(BuildContext context) async {
+    if (overClick) {
       setState(() {
         signUpCircle = !signUpCircle;
       });
       overClick = false;
+      userid = textFiledIdController.text;
       await SignUpController.checkIdAndPassAndName(pass: textFiledPassController.text, name: textFiledNameController.text, id: textFiledIdController.text).then((map) {
         print(' map ??????? $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
             //넘기기
             print('회원가입 ok');
-            Navigator.of(context).pushNamed(MainDash.routeName);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainDash(userId: userid)));
 
             textFiledIdController.clear();
             textFiledPassController.clear();
@@ -352,7 +355,6 @@ class _SignUpState extends State<SignUp> {
             setState(() {
               signUpCircle = !signUpCircle;
             });
-
           } else {
             _showDialog(map.values.first, map.values.last);
             setState(() {
@@ -365,8 +367,6 @@ class _SignUpState extends State<SignUp> {
 
         overClick = true;
       });
-
     }
-
   }
 }

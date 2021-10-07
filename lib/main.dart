@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:web/model/myWord.dart';
-import 'package:web/page/login/login.dart';
-import 'package:web/page/login/signup.dart';
+import 'package:web/model/shared.dart';
 import 'package:web/page/mainDash.dart';
-import 'package:web/page/windowDash/Content/writhcontent.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async{
+  String userId = await MyShared.getUserId();
+  runApp(MyApp(userId: userId,));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  MyApp({required this.userId});
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TestSite',
-      home: const MainDash(userId: MyWord.userId,),
+      home: MainDash(userId: this.userId),
     );
   }
 }

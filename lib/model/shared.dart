@@ -8,7 +8,7 @@ class MyShared {
   }
 
   static Future<String> getUserId () async {
-    String result = '';
+    String result = 'LogIn';
     SharedPreferences sh = await SharedPreferences.getInstance();
     if(sh.containsKey('userid')){
       if(sh.getString('userid').toString() != '' && sh.getString('userid').toString().isNotEmpty){

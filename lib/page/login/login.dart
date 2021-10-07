@@ -63,6 +63,7 @@ class _LoginState extends State<Login> {
                     child: TextField(
                         controller: textFiledIdController,
                         style: TextStyle(fontSize: 20),
+
                         decoration: const InputDecoration(
                             labelText: 'ID',
                             labelStyle: TextStyle(fontSize: 20),
@@ -186,7 +187,7 @@ class _LoginState extends State<Login> {
                       height: 60,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(SignUp.routeName);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUp()));
                         },
                         child: Text(
                           '회원가입',
@@ -354,7 +355,6 @@ class _LoginState extends State<Login> {
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
             String id = textFiledIdController.text.toString();
-
             setUserId(id);
           } else {
             _showDialog(map.values.first, map.values.last);

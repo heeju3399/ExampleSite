@@ -114,7 +114,7 @@ class _HeaderState extends State<Header> {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login(userId: userId,)));
                       }else{//자신의 아이디로 로그인 했을때
                         //프로필?
-                        html.window.location.reload();
+                        //html.window.location.reload();
                       }
                     },
                     child: Text(
@@ -131,7 +131,8 @@ class _HeaderState extends State<Header> {
                   child: InkWell(
                     onTap: () {
                       if(loginCheck){
-                        Navigator.of(context).pushNamed(WriteContentMain.routeName);
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context)=> WriteContentMain(userId: userId,)));
                       }
                     },
                     child: loginCheck ? Icon(

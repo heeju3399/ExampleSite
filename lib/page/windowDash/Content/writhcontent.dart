@@ -4,17 +4,19 @@ import 'package:web/control/writeContent.dart';
 import 'package:web/page/dialog/dialog.dart';
 
 class WriteContentMain extends StatefulWidget {
-  const WriteContentMain({Key? key}) : super(key: key);
+  const WriteContentMain({Key? key, required this.userId}) : super(key: key);
   static String routeName = '/WriteContentMain';
+  final String userId;
 
   @override
-  _WriteContentMainState createState() => _WriteContentMainState();
+  _WriteContentMainState createState() => _WriteContentMainState(userId: userId);
 }
 
 class _WriteContentMainState extends State<WriteContentMain> {
+  _WriteContentMainState({required this.userId});
   TextEditingController textFiledContentController = TextEditingController();
+  final String userId;
 
-  String userId = '';
   bool firstCheck = true;
 
   // String getUserId() {
