@@ -1,7 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/writeContent.dart';
+import 'package:web/page/dialog/dialog.dart';
 
 class WriteContentMain extends StatefulWidget {
   const WriteContentMain({Key? key}) : super(key: key);
@@ -12,24 +12,36 @@ class WriteContentMain extends StatefulWidget {
 }
 
 class _WriteContentMainState extends State<WriteContentMain> {
-
   TextEditingController textFiledContentController = TextEditingController();
 
-  String getUserId (){
-    String result = '';
+  String userId = '';
+  bool firstCheck = true;
 
-
+  // String getUserId() {
+  //   String result = 'LogIn';
+  //   final args = ModalRoute.of(context)!.settings.arguments;
+  //   print('args : $args');
+  //   if (args != null) {
+  //     print('pass?');
+  //     result = args.toString();
+  //   }
+  //   return result;
+  // }
+  Future<String> getUserId22() async {
+    String result = 'LogIn';
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.containsKey('userid')){
+      if(sharedPreferences.getString('userid').toString() != '' && sharedPreferences.getString('userid').toString().isNotEmpty){
+        result = sharedPreferences.getString('userid').toString();
+      }
+    }
     return result;
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    String userId = getUserId();
+
+    print('userID : $userId');
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -43,7 +55,9 @@ class _WriteContentMainState extends State<WriteContentMain> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '$userId 님의 글',maxLines: 1,overflow: TextOverflow.clip,
+                      '$userId 님의 글',
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
                       style: TextStyle(fontSize: 40, color: Colors.white),
                     ),
                   ),
@@ -51,7 +65,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                         maxLines: 5,
-                        onSubmitted: (v){
+                        onSubmitted: (v) {
                           setContext();
                         },
                         controller: textFiledContentController,
@@ -80,19 +94,19 @@ class _WriteContentMainState extends State<WriteContentMain> {
                           setContext();
                         },
                         child: Container(
-                            width: 250,
-                            height: 60,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.all(Radius.circular(10))),
-                            child: logInCircle
-                                ? Text(
-                              '글쓰기',
-                              textScaleFactor: 2,
-                              style: TextStyle(color: Colors.white),
-                            )
-                                : CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                            ),
+                          width: 250,
+                          height: 60,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: logInCircle
+                              ? Text(
+                                  '글쓰기',
+                                  textScaleFactor: 2,
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              : CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                ),
                         )),
                   ),
                 ],
@@ -101,36 +115,33 @@ class _WriteContentMainState extends State<WriteContentMain> {
       ),
     );
   }
+
   bool overClick = true;
   bool logInCircle = true;
-  void setContext () async {
-    print('pass');
-    if(overClick){
+
+  void setContext() async {
+    print('setcontext pass');
+    if (overClick) {
       setState(() {
         logInCircle = !logInCircle;
       });
       overClick = false;
 
-
-
-      await WriteContent.addContent(content: textFiledContentController.text).then((map) {
+      await WriteContent.addContent(content: textFiledContentController.text, userId: userId).then((map) {
         print('map : $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
-
+            //바로 메인 대쉬로 ㄱㄱ
+            Navigator.of(context).pop();
           } else {
-
-
-
+            MyDialog.setContentDialog(title: '${map.values.first}', message: '${map.values.last}', context: context);
           }
           setState(() {
             logInCircle = !logInCircle;
           });
         }
-
         overClick = true;
       });
-
     }
   }
 }

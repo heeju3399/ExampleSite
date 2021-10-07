@@ -1,55 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web/exex/todo.dart';
-
+import 'package:web/model/shared.dart';
 import 'package:web/page/windowDash/header.dart';
-
 import '../responsive.dart';
 import 'windowDash/body.dart';
 
 class MainDash extends StatefulWidget {
-  const MainDash({Key? key}) : super(key: key);
-
+  const MainDash({Key? key, required this.userId}) : super(key: key);
+  final String userId;
   static String routeName = '/MAIN_DASH';
 
   static _MainDashState? of(BuildContext context) => context.findAncestorStateOfType<_MainDashState>();
 
   @override
-  _MainDashState createState() => _MainDashState();
+  _MainDashState createState() => _MainDashState(userId: userId);
 }
 
 class _MainDashState extends State<MainDash> {
+  _MainDashState({required this.userId});
+  final String userId;
   bool floatingBTN = false;
   bool appBarCenterTitle = true;
   final List<String> items = List<String>.generate(0, (i) => 'Item $i');
   Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
-  String userId = '로그인';
+
+  bool firstCheck = true;
 
   set setChartPageValue(Map map) {
-    print('여기 통과?');
+    print('여기 통과????????????');
     getTextFiledString(map);
   }
 
-  @override
-  void initState() {
-    super.initState();
 
-  }
 
-  String getUserId() {
-    String result = 'LogIn';
-    final args = ModalRoute.of(context)!.settings.arguments;
-    print('args : $args');
-    if(args != null){
-      print('pass?');
-      result = args.toString();
-    }else{
-      result = 'LogIn';
-    }
-    return result;
-
-  }
-
+  // String getUserId() {
+  //   String result = 'LogIn';
+  //   final args = ModalRoute.of(context)!.settings.arguments;
+  //   print('args : $args');
+  //   if(args != null){
+  //     print('pass?');
+  //     result = args.toString();
+  //   }else{
+  //     result = 'LogIn';
+  //   }
+  //   return result;
+  // }
 
   void getTextFiledString(Map map) async {
     bool mapIsEmpty = map.isNotEmpty;
@@ -64,8 +58,7 @@ class _MainDashState extends State<MainDash> {
 
   @override
   Widget build(BuildContext context) {
-    String userId = getUserId();
-    print('뭐지이건2222222 userid?> : $userId');
+    print('===Main dash build widget pass userID : $userId ===');
     return WillPopScope(
       onWillPop: () {
         print('뭐지이건?');

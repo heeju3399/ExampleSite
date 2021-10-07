@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:web/page/login/login.dart';
 import 'package:web/page/mainDash.dart';
-
+import 'dart:html' as html;
 import 'Content/writhcontent.dart';
 
 class Header extends StatefulWidget {
@@ -110,11 +111,11 @@ class _HeaderState extends State<Header> {
                   child: InkWell(
                     onTap: () {
                       if(userId == 'LogIn'){
-                        Navigator.of(context).pushNamed('/Login');
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login(userId: userId,)));
                       }else{//자신의 아이디로 로그인 했을때
                         //프로필?
+                        html.window.location.reload();
                       }
-
                     },
                     child: Text(
                       '$userId',
@@ -130,9 +131,8 @@ class _HeaderState extends State<Header> {
                   child: InkWell(
                     onTap: () {
                       if(loginCheck){
-                        Navigator.of(context).pushNamedAndRemoveUntil(WriteContentMain.routeName,(Route<dynamic> route) => false);
+                        Navigator.of(context).pushNamed(WriteContentMain.routeName);
                       }
-
                     },
                     child: loginCheck ? Icon(
                       Ionicons.create,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:web/control/nodeServer.dart';
 import 'package:web/model/login.dart';
+import 'package:web/model/shared.dart';
 
 class LoginController {
   static Future<Map> checkIdAndPass(String id, String pass) async {
@@ -23,6 +24,7 @@ class LoginController {
       print('resultStateCode : $resultStateCode');
       if (resultTitle == 'pass') {
         //로그인 됨
+
         resultMap = {'title':resultTitle, 'message':resultMessage};
       } else if (resultTitle == 'no') {
         //로근인 안됨
@@ -31,13 +33,7 @@ class LoginController {
         resultMap = {'title':resultTitle, 'message':resultMessage};
       }
     }
-
     return resultMap;
   }
 
-  List<Login> parsePhotos(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-    return parsed.map<Login>((json) => Login.fromJson(json)).toList();
-  }
 }

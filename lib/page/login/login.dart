@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/login.dart';
+import 'package:web/model/shared.dart';
 import 'package:web/page/login/signup.dart';
 import 'package:web/page/mainDash.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key? key, required this.userId}) : super(key: key);
   static String routeName = '/Login';
+  final String userId;
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginState createState() => _LoginState(userId22: userId);
 }
 
 class _LoginState extends State<Login> {
+  _LoginState({required this.userId22});
+  final String userId22;
   bool aaa = false;
   Color btnColor = Colors.blueAccent;
   bool isChecked = false;
@@ -24,10 +28,8 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-
     super.dispose();
     print('login dispose pass');
-    //Navigator.of(context).pop();
   }
 
   @override
@@ -351,11 +353,12 @@ class _LoginState extends State<Login> {
         print('map : $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {
-            setUserId();
+            String id = textFiledIdController.text.toString();
+
+            setUserId(id);
           } else {
             _showDialog(map.values.first, map.values.last);
             textFiledPassController.clear();
-
           }
           setState(() {
             logInCircle = !logInCircle;
@@ -368,11 +371,14 @@ class _LoginState extends State<Login> {
     }
 
   }
-  void setUserId() async {
+  void setUserId(String userid) {
     //SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //MainDash.of(context)!.setChartPageValue = {'textFiledString':'888888'};
     //sharedPreferences.setString('userid', textFiledIdController.text);
+    print('setUserId pass !! : $userid');
+    MyShared.setUserId(userid);
     print('1');
-    Navigator.of(context).pushNamedAndRemoveUntil(MainDash.routeName,(Route<dynamic> route) => false, arguments: textFiledIdController.text);
+  //  Navigator.of(context).popAndPushNamed(MainDash.routeName);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainDash(userId: userid,)));
   }
 }
