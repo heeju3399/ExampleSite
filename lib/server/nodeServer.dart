@@ -62,9 +62,43 @@ class NodeServer {
   //   // });
   // }
 
-  void setUser() async {}
+  // void setLikeAndBad() async {
+  //   String flag = 'setcontent';
+  //   String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+  //   bool returnResult = false;
+  //   String nowTime = DateTime.now().toString();
+  //   String visible = '1';
+  //   print('contetn : $content');
+  //   var contentEncode = utf8.encode(content);
+  //   //var contentDe = utf8.decode(contentEncode);
+  //   Map<String, String> map = Map();
+  //   map = {"siteKey": '$siteKey', "id": '$userId', "content": '$contentEncode', "flag": '$flag', "nowtime": '$nowTime', "visible": '$visible'};
+  //   try {
+  //     var response = await http.post(Uri.parse('http://localhost:3000/setlikeandbad'), headers: map);
+  //     int stateCode = response.statusCode;
+  //     print('$stateCode pass');
+  //     if (stateCode == 200) {
+  //       String result = response.body.toString();
+  //       print('body : $result');
+  //       result = result.substring(10,14);
+  //       print('sub?? $result');
+  //       if(result.contains('pass')){
+  //         returnResult = true;
+  //       }else if(result.contains('no')){
+  //         returnResult = false;
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     returnResult = false;
+  //   }
+  //   print('return pre : $returnResult');
+  //   return returnResult;
+  // }
 
-  void getUser() {}
+  void getLikeAndBad() async {
+
+  }
 
   static Future<bool> setContents({required String content,required String userId}) async {
     String flag = 'setcontent';

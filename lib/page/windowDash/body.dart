@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web/control/readContent.dart';
+
 import 'Content/contentPage.dart';
 
 class Body extends StatelessWidget {
@@ -43,80 +44,22 @@ class Body extends StatelessWidget {
           Container(
             height: 1000,
             child: FutureBuilder(
-                  future: fetchPostContent(),
+                  future: ReadContentControl.getContentData(),
                   builder: (context, snap) {
                     if (!snap.hasData) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(child: CircularProgressIndicator(backgroundColor: Colors.white,));
                     }else{
-                      // Map<String,String>? map = snap.data as Map<String, String>?;
-                      // return ListView.builder(
-                      //     itemCount: map!.length,
-                      //     padding: const EdgeInsets.all(10),
-                      //     itemBuilder: (context, index) {
-                      //       return InkWell(
-                      //           onTap: () {
-                      //             print('pass : $index');
-                      //           },
-                      //           child: Card(
-                      //               child: Container(
-                      //                 color: Colors.black,
-                      //                 height: 100,
-                      //                 child: Row(
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding: const EdgeInsets.all(8.0),
-                      //                       child: Text(
-                      //                         '${map.keys.elementAt(index)}',
-                      //                         style: TextStyle(color: Colors.white),
-                      //                         textScaleFactor: 3,
-                      //                       ),
-                      //                     ),
-                      //                     Padding(
-                      //                       padding: const EdgeInsets.all(8.0),
-                      //                       child: Text(
-                      //                         '${map.values.elementAt(index)}',
-                      //                         style: TextStyle(color: Colors.white),
-                      //                         textScaleFactor: 3,
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               )));
-                      //     });
-                      return AllContentPage();
+                      return AllContentPage(data: snap.data as List<Item>);
                     }
-
                   }),
             ),
 
-
-
-          Container(
-            color: Colors.yellow,
-            height: 1000,
-          ),
-          Container(
-            color: Colors.orange,
-            height: 1000,
-          ),
         ],
       ),
     );
   }
 
-  Future<Map> fetchPostContent() async {
-    var request = {
-      'user1': 'um...1',
-      'user2': 'um...2',
-      'user3': 'um...3',
-      'user4': 'um...4',
-      'user5': 'um...5',
-      'user6': 'um...7',
-    };
-    return Future.delayed(Duration(seconds: 1), () {
-      return request;
-    });
-  }
+
 
 
 }
