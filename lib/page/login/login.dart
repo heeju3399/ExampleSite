@@ -350,7 +350,7 @@ class _LoginState extends State<Login> {
         logInCircle = !logInCircle;
       });
       overClick = false;
-      await LoginController.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map) {
+      await LoginControl.checkIdAndPass(textFiledIdController.text, textFiledPassController.text).then((map) {
         print('map : $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {

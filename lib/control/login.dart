@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'package:web/control/nodeServer.dart';
-import 'package:web/model/login.dart';
-import 'package:web/model/shared.dart';
 
-class LoginController {
+import 'package:web/server/nodeServer.dart';
+
+class LoginControl {
   static Future<Map> checkIdAndPass(String id, String pass) async {
     String resultTitle = '';
     String resultMessage = '';

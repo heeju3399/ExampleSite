@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:web/control/nodeServer.dart';
-import 'package:web/model/login.dart';
+
+import 'package:web/server/nodeServer.dart';
 
 class SignUpController {
   static Future<Map> checkIdAndPassAndName({required String id,required String pass,required String name}) async {
@@ -54,9 +53,4 @@ class SignUpController {
     return resultMap;
   }
 
-  List<Login> parsePhotos(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-    return parsed.map<Login>((json) => Login.fromJson(json)).toList();
-  }
 }

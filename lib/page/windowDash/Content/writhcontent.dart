@@ -19,30 +19,8 @@ class _WriteContentMainState extends State<WriteContentMain> {
 
   bool firstCheck = true;
 
-  // String getUserId() {
-  //   String result = 'LogIn';
-  //   final args = ModalRoute.of(context)!.settings.arguments;
-  //   print('args : $args');
-  //   if (args != null) {
-  //     print('pass?');
-  //     result = args.toString();
-  //   }
-  //   return result;
-  // }
-  Future<String> getUserId22() async {
-    String result = 'LogIn';
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.containsKey('userid')){
-      if(sharedPreferences.getString('userid').toString() != '' && sharedPreferences.getString('userid').toString().isNotEmpty){
-        result = sharedPreferences.getString('userid').toString();
-      }
-    }
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
-
     print('userID : $userId');
     return Scaffold(
       backgroundColor: Colors.black,
@@ -129,7 +107,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
       });
       overClick = false;
 
-      await WriteContent.addContent(content: textFiledContentController.text, userId: userId).then((map) {
+      await WriteContentControl.addContent(content: textFiledContentController.text, userId: userId).then((map) {
         print('map : $map');
         if (map.isNotEmpty) {
           if (map.values.first == 'pass') {

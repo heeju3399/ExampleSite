@@ -1,0 +1,195 @@
+import 'package:flutter/material.dart';
+
+class AllContentPage extends StatelessWidget {
+  const AllContentPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) => ContentItem(data[index]),
+      itemCount: data.length,
+    );
+  }
+}
+
+// One entry in the multilevel list displayed by this app.
+class Item {
+  const Item(this.title, [this.children = const <Item>[]]);
+
+  final String title;
+  final List<Item> children;
+}
+
+// Data to display.
+const List<Item> data = <Item>[
+  Item(
+    'Chapter A',
+    <Item>[
+      Item(
+        'Section A0',
+        <Item>[
+          Item('Item A0.1'),
+          Item('Item A0.2'),
+        ],
+      ),
+      Item('Section A1'),
+      Item('Section A2'),
+    ],
+  ),
+  Item(
+    'Chapter B',
+    <Item>[
+      Item('Section B0'),
+      Item('Section B1'),
+    ],
+  ),
+
+];
+
+// Displays one Entry. If the entry has children then it's displayed
+// with an ExpansionTile.
+class ContentItem extends StatelessWidget {
+  const ContentItem(this.entry);
+
+  final Item entry;
+
+  Widget _buildItem(Item root) {
+    print('title ${root.title}');
+    print('build tiles call ${root.children.toString()}');
+    print('skip? 00 ${root.children.skip(0)}');
+    print('list>?????????? ${root.children.map(_buildItem).toList()}');
+    if (root.children.isEmpty)
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  root.title,
+                  style: TextStyle(color: Colors.white),
+                  textScaleFactor: 2,
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            print('?????????? $root');
+          },
+        ),
+      );
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ExpansionTile(
+        subtitle: Row(
+          //타이틀 아래 작은 글
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            subTitle(0),
+            subTitle(1),
+            subTitle(2),
+          ],
+        ),
+        collapsedBackgroundColor: Colors.black12,
+        backgroundColor: Colors.black12,
+        //trailing: Icon(Icons.comment),//오른쪽 아이콘
+
+        //leading: Text('No1'),//맨앞에 글자
+        //initiallyExpanded: false,//시작할때 모두 열어서 보이기
+        maintainState: false,
+        onExpansionChanged: (v) {
+          print('뭐지이건? : $v');
+        },
+        //열었을때 작업뭐할지 정하는 메소드
+
+        key: PageStorageKey<Item>(root),
+        //collapsedBackgroundColor: Colors.white,
+        //collapsedIconColor:
+        //iconColor: Colors.yellow,
+
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: 900,
+                child: Text(
+                  'sdffsdfsfs? ${root.title}',
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.white),
+                  textScaleFactor: 2,
+                ),
+              ),
+            ],
+          ),
+        ),
+        children: root.children.map(_buildItem).toList(),
+      ),
+    );
+  }
+
+  Widget subTitle(int flag) {
+    return Container(
+      width: 200,
+      alignment: Alignment.center,
+      child: InkWell(
+        onTap: () {
+          print('$flag 패쓰');
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (flag == 0)
+              Row(
+                children: [
+                  Icon(
+                    Icons.comment,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    ' 댓글수 ( 5 )',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            if (flag == 1)
+              Row(
+                children: [
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    ' 좋아요 ( 5 )',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            if (flag == 2)
+              Row(
+                children: [
+                  Icon(
+                    Icons.mood_bad,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    ' 싫어요 ( 5 )',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildItem(entry);
+  }
+}

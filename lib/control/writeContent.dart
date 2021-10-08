@@ -1,21 +1,26 @@
 import 'dart:convert';
-import 'package:web/control/nodeServer.dart';
 import 'package:web/model/login.dart';
+import 'package:web/server/nodeServer.dart';
 
-class WriteContent {
+class WriteContentControl {
   static Future<Map> addContent({required String content, required String userId}) async {
-    bool check = false;
     Map resultMap = Map();
+    Map valueMap = Map();
+    bool result = false;
     if (content == '' || content.isEmpty) {
       resultMap = {'title':'빈칸을 채워주세요', 'message':'하고싶은 말을 적어주세요'};
     } else {
       await NodeServer.setContents(content: content, userId: userId).then((value) => {
-        check = value
+        result = value        
       });
-      print('=============================');
-      print('check : $check');
-      resultMap = {'title':'pass','message':''};
+      print('============================?? $result =');
+      if(result){
+        resultMap = {'title':'pass','message':''};
+      }else{
+        resultMap = {'title':'에러','message':'알수없는 에러'};
+      }
     }
+    print('return map : $resultMap');
     return resultMap;
   }
 

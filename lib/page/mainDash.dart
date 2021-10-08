@@ -8,7 +8,6 @@ class MainDash extends StatefulWidget {
   const MainDash({Key? key, required this.userId}) : super(key: key);
   final String userId;
   static String routeName = '/MAIN_DASH';
-
   static _MainDashState? of(BuildContext context) => context.findAncestorStateOfType<_MainDashState>();
 
   @override
@@ -37,18 +36,15 @@ class _MainDashState extends State<MainDash> {
     super.initState();
   }
 
-  @override
-  void reassemble() async {
-    print('reassemble');
-    super.reassemble();
-    await MyShared.getUserId().then((value) => {
-      userId = value.toString(),
-      print(value)
-
-    });
-    print('??????????? : $userId');
-
-  }
+  // @override
+  // void reassemble() async {
+  //   super.reassemble();
+  //   await MyShared.getUserId().then((value) => {
+  //     userId = value.toString(),
+  //     print(value)
+  //   });
+  //   print('새로고침 $userId');
+  // }
 
 
   void getTextFiledString(Map map) async {
@@ -78,7 +74,8 @@ class _MainDashState extends State<MainDash> {
             isAlwaysShown: true,
             radius: Radius.circular(20),
             thickness: 15,
-            child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context))),
+            child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
+        ),
         floatingActionButton: floatingBTN
             ? null
             : FloatingActionButton(
@@ -89,7 +86,6 @@ class _MainDashState extends State<MainDash> {
     );
   }
 
-  //mobile
   Widget isMobile(BuildContext context) {
     floatingBTN = false;
     appBarCenterTitle = false;
@@ -111,7 +107,6 @@ class _MainDashState extends State<MainDash> {
     );
   }
 
-  // //window
   Widget isWindow(BuildContext context, String userId) {
     floatingBTN = true;
     appBarCenterTitle = true;
