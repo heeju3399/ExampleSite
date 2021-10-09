@@ -74,7 +74,7 @@ class _MainDashState extends State<MainDash> {
             isAlwaysShown: true,
             radius: Radius.circular(20),
             thickness: 15,
-            child: SingleChildScrollView(child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
+            child: SingleChildScrollView(physics: ScrollPhysics(),child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
         ),
         floatingActionButton: floatingBTN
             ? null

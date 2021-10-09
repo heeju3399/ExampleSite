@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:web/control/readContent.dart';
-
 import 'Content/contentPage.dart';
 
 class Body extends StatelessWidget {
@@ -32,7 +31,6 @@ class Body extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 height: 100,
                 color: Colors.black,
-
                 child: Text(
                   '검색결과 : ${textFiledMap.values.join('getTextFiledMap')}',
                   textScaleFactor: 3,
@@ -41,25 +39,21 @@ class Body extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 1000,
-            child: FutureBuilder(
-                  future: ReadContentControl.getContentData(),
-                  builder: (context, snap) {
-                    if (!snap.hasData) {
-                      return Center(child: CircularProgressIndicator(backgroundColor: Colors.white,));
-                    }else{
-                      return AllContentPage(data: snap.data as List<Item>);
-                    }
-                  }),
-            ),
-
+          FutureBuilder(
+              future: ReadContentControl.getContentData(),
+              builder: (context, snap) {
+                if (!snap.hasData) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                  ));
+                } else {
+                  return AllContentPage(data: snap.data as List<Item>);
+                  return Container();
+                }
+              }),
         ],
       ),
     );
   }
-
-
-
-
 }
