@@ -11,5 +11,5 @@ class Responsive {
     required this.widthLarge,
   });
 
-  static bool isLarge(BuildContext context) => MediaQuery.of(context).size.width >= 1000;
+  static bool isLarge(BuildContext context) => MediaQuery.of(context).size.width >= 1100;
 }

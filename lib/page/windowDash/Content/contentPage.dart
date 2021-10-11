@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/readContent.dart';
 import 'package:web/model/mainContentTileColor.dart';
-
+import 'package:web/model/shared.dart';
 import 'CommentPage.dart';
 
 class AllContentPage extends StatefulWidget {
@@ -20,177 +21,161 @@ class _AllContentPageState extends State<AllContentPage> {
   bool favoriteOnHover = false;
   bool badOnHover = false;
   List<Widget> widgetList = [];
+  List<TextEditingController> textEditingController = [];
+  int viewCount = 0;
+  int likeCount = 0;
+  int badCount = 0;
+
+
 
   @override
   void initState() {
     super.initState();
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('처음부터 값이 들어오나? ${data.length}');
+    //print('처음부터 값이 들어오나? ${data.length}');
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        print('listView Build pass int index???? $index');
-        print(data.length);
         MainContent item = data[index];
         return _mainBuild(item, index, context);
       },
       itemCount: data.length,
       shrinkWrap: true,
-      //physics: NeverScrollableScrollPhysics(), 모바일 버젼에서는 활성화 시키기
     );
   }
-
-  // Widget subTitle(int flag, Item item) {
-  //   return Container(
-  //       width: 90,
-  //       child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-  //         if (flag == 0) Row(children: [Icon(Icons.favorite, color: MainContentModel.iconColor), Text('  ( $likeCount )', style: TextStyle(color: MainContentModel.textColor))]),
-  //         if (flag == 1) Row(children: [Icon(Icons.mood_bad, color: MainContentModel.iconColor), Text('  ( $badCount )', style: TextStyle(color: MainContentModel.textColor))]),
-  //         if (flag == 2) Row(children: [Icon(Icons.remove_red_eye, color: MainContentModel.iconColor), Text('  ( $viewCount )', style: TextStyle(color: MainContentModel.textColor))]),
-  //         if (flag == 3) MainContentModel.myText(userId),
-  //         if (flag == 4) MainContentModel.myText(createTime),
-  //         //if (flag == 5) Icon(Icons.delete_forever_sharp, color: MainContentModel.iconColor),
-  //       ]));
-  // }
-
 
   Widget _mainBuild(MainContent item, int index, BuildContext context) {
-    //return Container();
+    textEditingController.add(TextEditingController());
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ExpansionTile(
-        //key: GlobalKey(),
-        subtitle: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(Icons.favorite, color: MainContentModel.iconColor),
-              Text('  ( ${item.likeCount} )', style: TextStyle(color: MainContentModel.textColor)),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Icon(Icons.mood_bad, color: MainContentModel.iconColor),
-              ),
-              Text('  ( ${item.badCount} )', style: TextStyle(color: MainContentModel.textColor)),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Icon(Icons.remove_red_eye, color: MainContentModel.iconColor),
-              ),
-              Text('  ( ${item.viewCount} )', style: TextStyle(color: MainContentModel.textColor)),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: MainContentModel.myText(item.userId),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: MainContentModel.myText(item.createTime),
-              ),
-            ],
-          ),
-        ),
-        collapsedBackgroundColor: MainContentModel.backgroundColor,
-        backgroundColor: Colors.white30,
-        trailing: Icon(
-          Icons.comment,
-          color: MainContentModel.iconColor,
-        ),
-        initiallyExpanded: openAndClose,
-        //maintainState: true,
-
-        onExpansionChanged: (v) {
-          print('열고 닫힐때 : $v');
-        },
-        //열었을때 작업뭐할지 정하는 메소드
-        //key: PageStorageKey<Item>(root),
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 850,
-                child: Text(
-                  '${item.content}',
-                  maxLines: 5,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(color: MainContentModel.textColor, fontSize: MainContentModel.basicFontSize),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  likeAndBadIcon(0), //이녀석의 성격은 좀 다름  셋할때 할것
-                  likeAndBadIcon(1), //이녀석의 성격은 좀 다름 ㅍ 셋할때 할것
-                ],
-              ),
-            ],
-          ),
-        ),
-        children: tenComment(item, index, context),
-      ),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: ExpansionTile(
+            subtitle: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Icon(Icons.favorite, color: MainContentModel.iconColor),
+                  Text('  ( ${item.likeCount} )', style: TextStyle(color: MainContentModel.textColor)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Icon(Icons.mood_bad, color: MainContentModel.iconColor),
+                  ),
+                  Text('  ( ${item.badCount} )', style: TextStyle(color: MainContentModel.textColor)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Icon(Icons.remove_red_eye, color: MainContentModel.iconColor),
+                  ),
+                  Text('  ( ${item.viewCount} )', style: TextStyle(color: MainContentModel.textColor)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: MainContentModel.myText(item.userId),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: MainContentModel.myText(item.createTime),
+                  )
+                ])),
+            collapsedBackgroundColor: MainContentModel.backgroundColor,
+            backgroundColor: Colors.black12,
+            trailing: Icon(
+              Icons.comment,
+              color: MainContentModel.iconColor,
+            ),
+            onExpansionChanged: (v) {
+              print('열고 닫힐때 : $v');
+              if (v) {
+                viewCount++;
+              }
+            },
+            //열었을때 작업뭐할지 정하는 메소드
+            //key: PageStorageKey<Item>(root),
+            title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Container(
+                      width: 850,
+                      child: Text(
+                        '${item.content}',
+                        maxLines: 5,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(color: MainContentModel.textColor, fontSize: MainContentModel.basicFontSize),
+                      )),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    likeAndBadIcon(0), //이녀석의 성격은 좀 다름  셋할때 할것
+                    likeAndBadIcon(1), //이녀석의 성격은 좀 다름 ㅍ 셋할때 할것
+                  ])
+                ])),
+            children: tenComment(item, index, context)));
   }
 
-  bool contentAndCommentView = false;
-  bool openAndClose = false;
-  List<int> widgetCount = [];
-  List<int> commentListCount = [];
-  int min = 0;
-  int max = 10;
-  int indexFiled = 0;
-  int maxLast = 0;
-  int lastCount = 0;
-
-  int chooseIndex = 0;
-
   List<Widget> tenComment(MainContent item, int index, BuildContext context) {
-    print('all comment pass');
+    //print('all comment pass');
     int itemChildrenLength = item.children.length;
-    widgetList = [inputComment()];
+    widgetList = [inputComment(item, index)];
     for (int i = 0; i < 10; i++) {
       if (i < itemChildrenLength) {
-        widgetList.add(commentList(item.children[i]));
+        widgetList.add(commentList(item.children[i], item, index, i));
       }
     }
-    widgetList.add(lastClickPage(index, context));
+    if (10 < itemChildrenLength) {
+      widgetList.add(lastClickPage(index, context));
+    }
+    widgetList.add(Divider(
+      color: Colors.white,
+      height: 50,
+    ));
     return widgetList;
   }
 
   Widget lastClickPage(int index, BuildContext context) {
-    return Container(
-      width: 600,
-      height: 70,
-      child: ElevatedButton(
-        child: Text(
-          '덧글 전체보기',
-          textScaleFactor: 3,
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Container(
+        width: 400,
+        height: 50,
+        child: ElevatedButton(
+          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
+          child: Text('덧글 전체보기', textScaleFactor: 2),
+          onPressed: () {
+            //print('인덱스?아 $index');
+            MainContent itemedd = data.elementAt(index);
+            itemedd.children.forEach((element) {
+              //print('comment?? ${element.comment}');
+            });
+            //print('comment?? ${itemedd.content}');
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentPage(content: itemedd)));
+          },
+          //  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
         ),
-        onPressed: () {
-          print('인덱스?아 $index');
-          MainContent itemedd = data.elementAt(index);
-           itemedd.children.forEach((element) {
-             print('comment?? ${element.comment}');
-          });
-          print('comment?? ${itemedd.content}');
-
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentPage(content: itemedd)));
-        },
-        //  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
       ),
     );
   }
 
   //댓글입력창
-  Widget inputComment() {
+  Widget inputComment(MainContent item, int index) {
     return Container(
-        width: 900,
+        width: 890,
         child: Padding(
             padding: const EdgeInsets.all(28.0),
             child: TextField(
+                controller: textEditingController[index],
+                autofocus: true,
                 onSubmitted: (v) {
-                  print(v);
+                  //print('덧글 입력 : $v');
+                  MainComment mainComment = MainComment(comment: '${v.toString()}', visible: 1, userId: 'kkkk123', createTime: '${DateTime.now().toString()}');
+                  item.children.insert(0, mainComment);
+                  //item.children.add(mainComment);
+                  item.children.forEach((element) {
+                    //print(element.comment.toString());
+                  });
+                  setState(() {});
+                  textEditingController[index].clear();
                 },
                 style: TextStyle(fontSize: 25, color: Colors.white),
                 decoration: const InputDecoration(
@@ -211,11 +196,11 @@ class _AllContentPageState extends State<AllContentPage> {
                     )))));
   }
 
-  Widget commentList(MainComment comment) {
+  Widget commentList(MainComment comment, MainContent item, int index, int i) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-            hoverColor: Colors.black,
+            hoverColor: Colors.black12,
             selectedTileColor: MainContentModel.tileColor,
             tileColor: MainContentModel.tileColor,
             //subtitle: ,
@@ -231,13 +216,18 @@ class _AllContentPageState extends State<AllContentPage> {
                         overflow: TextOverflow.clip,
                       )),
                   IconButton(
+                      //delete
                       icon: Icon(
                         Icons.delete_forever,
                         color: MainContentModel.iconColor,
                         size: 30,
                       ),
                       onPressed: () {
-                        print('pass');
+                        print('delete pass : $i');
+                        print(widgetList.toString());
+                        item.children.removeAt(i);
+                        print('***********************************');
+                        setState(() {});
                       })
                 ]))));
   }
