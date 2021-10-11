@@ -29,7 +29,7 @@ class _AllContentPageState extends State<AllContentPage> {
 class ContentItem extends StatefulWidget {
   const ContentItem(this.item);
 
-  final Item item;
+  final MainContent item;
 
   @override
   _ContentItemState createState() => _ContentItemState();
@@ -39,7 +39,7 @@ class _ContentItemState extends State<ContentItem> {
   bool favoriteOnHover = false;
   bool badOnHover = false;
 
-  Widget _buildItem(Item item) {
+  Widget _buildItem(MainContent item) {
     // print('title ${root.title}');
     // print('build tiles call ${root.children.toString()}');
     // print('skip? 00 ${root.children.skip(0)}');
@@ -206,7 +206,7 @@ class _ContentItemState extends State<ContentItem> {
     );
   }
 
-  List<Widget> allComment(Item item) {
+  List<Widget> allComment(MainContent item) {
     //root.children.elementAt(0),
     List<Widget> sss = [];
     for (int i = 0; i < item.children.length; i++) {

@@ -32,7 +32,6 @@ class _MainDashState extends State<MainDash> {
   @override
   void initState() {
     MyShared.setUserId(userId);
-
     super.initState();
   }
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:web/control/readContent.dart';
 import 'package:web/model/mainContentTileColor.dart';
-
-import 'CommentPage.dart';
+import 'dart:math' as math;
 
 class AllContentPage extends StatefulWidget {
   const AllContentPage({Key? key, required this.data}) : super(key: key);
@@ -21,9 +19,11 @@ class _AllContentPageState extends State<AllContentPage> {
   bool badOnHover = false;
   List<Widget> widgetList = [];
 
+
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -34,7 +34,7 @@ class _AllContentPageState extends State<AllContentPage> {
         print('listView Build pass int index???? $index');
         print(data.length);
         MainContent item = data[index];
-        return _mainBuild(item, index, context);
+        return _mainBuild(item, index);
       },
       itemCount: data.length,
       shrinkWrap: true,
@@ -55,8 +55,7 @@ class _AllContentPageState extends State<AllContentPage> {
   //       ]));
   // }
 
-
-  Widget _mainBuild(MainContent item, int index, BuildContext context) {
+  Widget _mainBuild(MainContent item, int index) {
     //return Container();
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -101,6 +100,7 @@ class _AllContentPageState extends State<AllContentPage> {
 
         onExpansionChanged: (v) {
           print('열고 닫힐때 : $v');
+
         },
         //열었을때 작업뭐할지 정하는 메소드
         //key: PageStorageKey<Item>(root),
@@ -128,12 +128,11 @@ class _AllContentPageState extends State<AllContentPage> {
             ],
           ),
         ),
-        children: tenComment(item, index, context),
+        children: allComment(item, index),
       ),
     );
   }
 
-  bool contentAndCommentView = false;
   bool openAndClose = false;
   List<int> widgetCount = [];
   List<int> commentListCount = [];
@@ -143,39 +142,87 @@ class _AllContentPageState extends State<AllContentPage> {
   int maxLast = 0;
   int lastCount = 0;
 
-  int chooseIndex = 0;
-
-  List<Widget> tenComment(MainContent item, int index, BuildContext context) {
+  List<Widget> allComment(MainContent item, int index) {
     print('all comment pass');
+    lastCount++;
+    print('???????????????? $index');
+    if (lastCount == data.length) {
+      print("카운트 !!!!!!!!!!!!!!!!!###################################################");
+      //마지막에 이녀석이 돔
+      max = max + 10;
+      lastCount = 0;
+    }
+    print('================================================');
     int itemChildrenLength = item.children.length;
     widgetList = [inputComment()];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < max; i++) {
       if (i < itemChildrenLength) {
         widgetList.add(commentList(item.children[i]));
       }
     }
-    widgetList.add(lastClickPage(index, context));
+
+    // if (itemChildrenLength < 10) {
+    //   for (int i = 0; i < itemChildrenLength; i++) {
+    //     widgetList.add(commentList(item.children[i]));
+    //   }
+    // } else if (10 <= itemChildrenLength && itemChildrenLength < 20) {
+    // } else if (20 <= itemChildrenLength && itemChildrenLength < 30) {
+    // } else if (30 <= itemChildrenLength && itemChildrenLength < 40) {
+    // } else if (40 <= itemChildrenLength && itemChildrenLength < 50) {
+    // } else if (50 <= itemChildrenLength && itemChildrenLength < 60) {
+    // } else if (60 <= itemChildrenLength && itemChildrenLength < 70) {
+    // } else if (70 <= itemChildrenLength && itemChildrenLength < 80) {
+    // } else if (80 <= itemChildrenLength && itemChildrenLength < 90) {
+    // } else if (90 <= itemChildrenLength && itemChildrenLength < 100) {
+    // } else if (100 <= itemChildrenLength && itemChildrenLength < 110) {}
+    //
+    // //10개씩 끊기? 음
+    // // for(int i=0; i < item.children.length; i++) {
+    // //   print(item.children[i]);
+    // //   if(i % 10 == 9) {
+    // //     print('pass');
+    // //   }
+    // // }
+    // // widgetCount = widgetList.length;
+    // // print('len!!!!!!!!!!!!!!! : $widgetCount');
+    //
+    //
+    // if (0 < indexList) {
+    //
+    // }
+
+    //commentListCount.add(commentListCount.elementAt(index) + 10);
+
+    // item.children.forEach((element) {
+    //   Comment comment = element;
+    //   widgetList.add(commentList(comment));
+    // });
+    // for (int i = 0; i < itemChildrenLength; i++) {
+    //     Comment comment = item.children[i];
+    //     widgetList.add(commentList(comment));
+    //   }
+
+    // for (int i = 0; i < itemChildrenLength; i++) {
+    //   Comment comment = item.children[i];
+    //   widgetList.add(commentList(comment));
+    // }
+    widgetList.add(lastClickPage(item, index));
     return widgetList;
   }
 
-  Widget lastClickPage(int index, BuildContext context) {
+
+
+  Widget lastClickPage(MainContent item, int index) {
     return Container(
       width: 600,
       height: 70,
       child: ElevatedButton(
         child: Text(
-          '덧글 전체보기',
+          '더보기',
           textScaleFactor: 3,
         ),
         onPressed: () {
-          print('인덱스?아 $index');
-          MainContent itemedd = data.elementAt(index);
-           itemedd.children.forEach((element) {
-             print('comment?? ${element.comment}');
-          });
-          print('comment?? ${itemedd.content}');
-
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentPage(content: itemedd)));
+          print('버튼 클릭 : $index');
         },
         //  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
       ),
@@ -211,7 +258,7 @@ class _AllContentPageState extends State<AllContentPage> {
                     )))));
   }
 
-  Widget commentList(MainComment comment) {
+  Widget commentList(Comment comment) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(

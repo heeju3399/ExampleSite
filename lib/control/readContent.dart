@@ -19,20 +19,140 @@ class ReadContentControl {
 //   }
 
   static Future<List> getContentData() async {
-    List<Item> allContentItem = <Item>[
-      Item(createTime: '9999', userId: 'admin', visible: 1, children: <Comment>[
-        Comment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+    List<MainContent> allContentItem = <MainContent>[
+      MainContent(createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
       ], content: '오케이', badCount: 0, likeCount: 0, viewCount: 0),
-      Item(createTime: '9999', userId: 'admin', visible: 1, children: <Comment>[
-        Comment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
-        Comment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
-        Comment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
-        Comment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
-        Comment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
-        
+      MainContent(createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
+        MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
+
       ], content: '오로롱', badCount: 0, likeCount: 0, viewCount: 0),
-      Item(createTime: '9999', userId: 'admin', visible: 1, children: <Comment>[], content: '홍금보닷', badCount: 0, likeCount: 10, viewCount: 0),
-      Item(createTime: '9999', userId: 'admin', visible: 1, children: <Comment>[], content: '웃웃', badCount: 0, likeCount: 0, viewCount: 20),
+      MainContent(createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[], content: '홍금보닷', badCount: 0, likeCount: 10, viewCount: 0),
+      MainContent(createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[], content: '웃웃', badCount: 0, likeCount: 0, viewCount: 20),
     ];
 
     return Future.delayed(Duration(seconds: 1), () {
@@ -41,9 +161,9 @@ class ReadContentControl {
   }
 }
 
-class Item {
+class MainContent {
   //const Item(this.createTime,  this.userId,  this.visible,  this.children,  this.content, this.badCount,  this.likeCount,  this.viewCount, [this.children = const <Comment>[]] );
-  const Item({required this.createTime, required this.userId, required this.visible, required this.children, required this.content, required this.badCount, required this.likeCount, required this.viewCount});
+  const MainContent({required this.createTime, required this.userId, required this.visible, required this.children, required this.content, required this.badCount, required this.likeCount, required this.viewCount});
   final String content;
   final int likeCount;
   final int badCount;
@@ -51,11 +171,11 @@ class Item {
   final String userId;
   final String createTime;
   final int visible;
-  final List<Comment> children;
+  final List<MainComment> children;
 }
 
-class Comment {
-  const Comment({required this.comment, required this.visible, required this.userId, required this.createTime});
+class MainComment {
+  const MainComment({required this.comment, required this.visible, required this.userId, required this.createTime});
   final String comment;
   final int visible;
   final String userId;

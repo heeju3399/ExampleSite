@@ -48,7 +48,7 @@ class Body extends StatelessWidget {
                     backgroundColor: Colors.white,
                   ));
                 } else {
-                  return AllContentPage(data: snap.data as List<Item>);
+                  return AllContentPage(data: snap.data as List<MainContent>);
                   return Container();
                 }
               }),
