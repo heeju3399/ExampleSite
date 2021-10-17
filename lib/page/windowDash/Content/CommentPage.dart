@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:web/control/readContent.dart';
-import 'package:web/model/mainContentTileColor.dart';
+import 'package:web/model/content.dart';
+
+
 
 class CommentPage extends StatefulWidget {
   const CommentPage({Key? key, required this.content}) : super(key: key);
-  final MainContent content;
+  final MainContentDataModel content;
 
   @override
   _CommentPageState createState() => _CommentPageState(content: content);
@@ -13,7 +14,7 @@ class CommentPage extends StatefulWidget {
 class _CommentPageState extends State<CommentPage> {
   _CommentPageState({required this.content});
 
-  final MainContent content;
+  final MainContentDataModel content;
 
   @override
   void initState() {
@@ -39,7 +40,7 @@ class _CommentPageState extends State<CommentPage> {
                       itemBuilder: (BuildContext context, int index) {
                         print('listView Build pass int index???? $index');
                         print(content.children.length);
-                        MainComment item = content.children[index];
+                        MainCommentDataModel item = content.children[index];
                         return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Card(

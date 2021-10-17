@@ -3,7 +3,8 @@ import 'package:web/model/shared.dart';
 import 'package:web/page/mainDash.dart';
 
 void main() async{
-  String userId = await MyShared.getUserId();
+  //String userId = await MyShared.getUserId();
+  String userId = 'admin';
   runApp(MyApp(userId: userId,));
 }
 

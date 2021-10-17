@@ -23,6 +23,14 @@ class _MainDashState extends State<MainDash> {
   Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
 
   bool firstCheck = true;
+  bool resultRefresh = true;
+
+  void refresh () {
+    setState(() {
+      resultRefresh = !resultRefresh;
+    });
+  }
+
 
   set setChartPageValue(Map map) {
     print('여기 통과????????????');
@@ -75,12 +83,18 @@ class _MainDashState extends State<MainDash> {
             thickness: 15,
             child: SingleChildScrollView(physics: ScrollPhysics(),child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
         ),
-        floatingActionButton: floatingBTN
-            ? null
-            : FloatingActionButton(
-                onPressed: () {},
-                child: Icon(Icons.add),
-              ),
+        // floatingActionButton: FloatingActionButton(
+        //         onPressed: () {
+        //           Future.delayed(Duration(seconds: 1)).then((value) => {
+        //             refresh()
+        //           });
+        //           print('floating button pass??????????????????????????????????????????????????');
+        //           setState(() {
+        //             resultRefresh = !resultRefresh;
+        //           });
+        //         },
+        //         child: Icon(Icons.add),
+        //       ),
       ),
     );
   }
@@ -127,9 +141,14 @@ class _MainDashState extends State<MainDash> {
           color: Colors.white12,
           indent: 0,
         ),
+        resultRefresh ?
         Body(
           textFiledMap: getTextFiledMap,
-        ),
+          userId: userId,
+        ) : Padding(
+          padding: const EdgeInsets.only(top: 200),
+          child: Center(child: CircularProgressIndicator(),),
+        )
       ],
     ));
   }

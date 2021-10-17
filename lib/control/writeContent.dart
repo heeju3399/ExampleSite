@@ -18,7 +18,7 @@ class WriteContentControl {
       if(result){
         resultMap = {'title':'pass','message':''};
       }else{
-        resultMap = {'title':'에러','message':'알수없는 에러'};
+        resultMap = {'title':'에러','message':'관리자에게 문의 하세요'};
       }
     }
     print('return map : $resultMap');

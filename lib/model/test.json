@@ -1,0 +1,44 @@
+{
+  "maindashcontent": [
+    {
+      "userid": "admin",
+      "contentid":0,
+      "content": "aaaa",
+      "createtime": "2020.05.22.11:22:11",
+      "visible": "1",
+      "like": 0,
+      "bad": 0,
+      "view": 0,
+      "comment": [
+        {
+          "userid": "kkkk",
+          "content": "um....",
+          "createtime": "2020.05.22.11:22:11",
+          "visible": "1"
+        }
+      ]
+    },
+    {
+      "contentid": 1,
+      "userid": "admin",
+      "content": "[236, 152, 164, 236, 188, 128, 236, 157, 180, 236, 151, 144, 236, 138, 164, 236, 188, 128, 236, 157, 180]",
+      "createtime": "2021-10-08 17:10:58.611",
+      "visible": "1",
+      "like": 0,
+      "bad": 0,
+      "view": 0,
+      "comment": []
+    },
+    {
+      "contentid": 2,
+      "userid": "admin",
+      "content": "[227, 133, 151, 237, 151, 136, 227, 133, 151, 227, 133, 147, 237, 152, 184, 227, 133, 147]",
+      "createtime": "2021-10-12 12:02:09.416",
+      "visible": "1",
+      "like": 0,
+      "bad": 0,
+      "view": 0,
+      "comment": []
+    }
+  ]
+}

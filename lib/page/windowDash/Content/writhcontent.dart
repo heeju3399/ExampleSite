@@ -1,5 +1,5 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/writeContent.dart';
 import 'package:web/page/dialog/dialog.dart';
 
@@ -23,6 +23,12 @@ class _WriteContentMainState extends State<WriteContentMain> {
   Widget build(BuildContext context) {
     print('userID : $userId');
     return Scaffold(
+      ///////////////////////////////////////////////
+      appBar:
+      AppBar(
+        title: Text('test widget'),
+      ),
+      ///////////////////////////////////////////////////
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
@@ -113,6 +119,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
           if (map.values.first == 'pass') {
             //바로 메인 대쉬로 ㄱㄱ
             Navigator.of(context).pop();
+            html.window.location.reload();
           } else {
             MyDialog.setContentDialog(title: '${map.values.first}', message: '${map.values.last}', context: context);
           }

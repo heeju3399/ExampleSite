@@ -15,15 +15,16 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-
   _HeaderState(this.userId);
+
   final String userId;
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     bool loginCheck = false;
-    if(userId != 'LogIn'){//로그인 안했을때
+    if (userId != 'LogIn') {
+      //로그인 안했을때
       loginCheck = true;
     }
 
@@ -110,9 +111,13 @@ class _HeaderState extends State<Header> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      if(userId == 'LogIn'){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login(userId: userId,)));
-                      }else{//자신의 아이디로 로그인 했을때
+                      if (userId == 'LogIn') {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Login(
+                                  userId: userId,
+                                )));
+                      } else {
+                        //자신의 아이디로 로그인 했을때
                         //프로필?
                         //html.window.location.reload();
                       }
@@ -126,25 +131,57 @@ class _HeaderState extends State<Header> {
               SizedBox(
                 width: 20,
               ),
-              Padding(//회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
+              Padding(
+                  //회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      if(loginCheck){
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context)=> WriteContentMain(userId: userId,)));
+                      if (loginCheck) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => WriteContentMain(
+                                  userId: userId,
+                                )));
                       }
                     },
-                    child: loginCheck ? Icon(
-                      Ionicons.create,
-                      size: 40,
-                      color: Colors.white,
-                    ) : Icon(
-                      Ionicons.cloud,
-                      size: 40,
-                      color: Colors.white,
-                    ),
-                  ))
+                    child: loginCheck
+                        ? Icon(
+                            Ionicons.create,
+                            size: 40,
+                            color: Colors.white,
+                          )
+                        : InkWell(
+                            onTap: () {
+                              print('refresh!');
+                              // html.window.location.reload();
+                            },
+                            child: Icon(
+                              Ionicons.refresh_circle_outline,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                  )),
+
+              SizedBox(
+                width: 20,
+              ),
+              Padding(
+                  //회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => WriteContentMain(
+                                  userId: 'admin',
+                                )));
+                      },
+                      child: Icon(
+                        Ionicons.create,
+                        size: 40,
+                        color: Colors.white,
+                      )))
+
+
             ],
           ),
         ],

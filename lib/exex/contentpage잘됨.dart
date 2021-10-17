@@ -98,11 +98,11 @@ class _ContentItemState extends State<ContentItem> {
             //subTitle(5),
           ],
         ),
-        collapsedBackgroundColor: MainContentModel.backgroundColor,
-        backgroundColor: MainContentModel.backgroundColor,
+        collapsedBackgroundColor: MainContentWidgetModel.backgroundColor,
+        backgroundColor: MainContentWidgetModel.backgroundColor,
         trailing: Icon(
           Icons.comment,
-          color: MainContentModel.iconColor,
+          color: MainContentWidgetModel.iconColor,
         ),
         onExpansionChanged: (v) {
           print('뭐지이건? : $v');
@@ -121,7 +121,7 @@ class _ContentItemState extends State<ContentItem> {
                   '? ${item.title}',
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: MainContentModel.textColor),
+                  style: TextStyle(color: MainContentWidgetModel.textColor),
                   textScaleFactor: 2,
                 ),
               ),
@@ -174,8 +174,8 @@ class _ContentItemState extends State<ContentItem> {
       child: ListTile(
         //key: PageStorageKey<Item>(root),
         hoverColor: Colors.black,
-        selectedTileColor: MainContentModel.tileColor,
-        tileColor: MainContentModel.tileColor,
+        selectedTileColor: MainContentWidgetModel.tileColor,
+        tileColor: MainContentWidgetModel.tileColor,
         //subtitle: ,
         title: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -184,7 +184,7 @@ class _ContentItemState extends State<ContentItem> {
                   width: 920,
                   child: Text(
                     'roottitlesdffsdfsfssdffsdfsfssdffsdfsfsdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfssdffsdfsfsssdffsdfsfssdffsdfsfs',
-                    style: TextStyle(color: MainContentModel.textColor),
+                    style: TextStyle(color: MainContentWidgetModel.textColor),
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                     textScaleFactor: 2,
@@ -192,7 +192,7 @@ class _ContentItemState extends State<ContentItem> {
               IconButton(
                   icon: Icon(
                     Icons.delete_forever,
-                    color: MainContentModel.iconColor,
+                    color: MainContentWidgetModel.iconColor,
                     size: 30,
                   ),
                   onPressed: () {
@@ -219,11 +219,11 @@ class _ContentItemState extends State<ContentItem> {
     return Container(
         width: 90,
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          if (flag == 0) Row(children: [Icon(Icons.favorite, color: MainContentModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentModel.textColor))]),
-          if (flag == 1) Row(children: [Icon(Icons.mood_bad, color: MainContentModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentModel.textColor))]),
-          if (flag == 2) Row(children: [Icon(Icons.remove_red_eye, color: MainContentModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentModel.textColor))]),
-          if (flag == 3) MainContentModel.myText('userId'),
-          if (flag == 4) MainContentModel.myText('2020-08-08'),
+          if (flag == 0) Row(children: [Icon(Icons.favorite, color: MainContentWidgetModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentWidgetModel.textColor))]),
+          if (flag == 1) Row(children: [Icon(Icons.mood_bad, color: MainContentWidgetModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentWidgetModel.textColor))]),
+          if (flag == 2) Row(children: [Icon(Icons.remove_red_eye, color: MainContentWidgetModel.iconColor), Text('  ( 5 )', style: TextStyle(color: MainContentWidgetModel.textColor))]),
+          if (flag == 3) MainContentWidgetModel.myText('userId'),
+          if (flag == 4) MainContentWidgetModel.myText('2020-08-08'),
           //if (flag == 5) Icon(Icons.delete_forever_sharp, color: MainContentModel.iconColor),
         ]));
   }
@@ -252,11 +252,11 @@ class _ContentItemState extends State<ContentItem> {
           }
         },
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          if (flag == 0) Icon(Icons.favorite, color: favoriteOnHover ? Colors.red : MainContentModel.iconColor),
+          if (flag == 0) Icon(Icons.favorite, color: favoriteOnHover ? Colors.red : MainContentWidgetModel.iconColor),
           if (flag == 1)
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 10),
-              child: Icon(Icons.mood_bad, color: badOnHover ? Colors.blue : MainContentModel.iconColor),
+              child: Icon(Icons.mood_bad, color: badOnHover ? Colors.blue : MainContentWidgetModel.iconColor),
             )
         ]));
   }
