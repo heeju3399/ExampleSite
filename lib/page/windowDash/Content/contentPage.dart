@@ -81,9 +81,9 @@ class _AllContentPageState extends State<AllContentPage> {
                 Text('  ( ${item.badCount} )', style: TextStyle(color: MainContentWidgetModel.textColor)),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
-                  child: Icon(Icons.remove_red_eye, color: MainContentWidgetModel.iconColor),
+                  child: Icon(Icons.comment, color: MainContentWidgetModel.iconColor),
                 ),
-                Text('  ( ${item.viewCount} )', style: TextStyle(color: MainContentWidgetModel.textColor)),
+                Text('  ( ${item.children.length} )', style: TextStyle(color: MainContentWidgetModel.textColor)),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
                   child: MainContentWidgetModel.myText(item.userId),
@@ -142,16 +142,18 @@ class _AllContentPageState extends State<AllContentPage> {
         onTap: () {
           //flag 0 좋아여
           //flag 1 싫어요
-          MainContentControl.setLikeAndBad(flag, item, index);
+          MainContentControl.setLikeAndBad(contentId: contentId, flag: flag);
+          Body.of(context)!.setBool = false;
+
         },
         onHover: (v) {
           if (flag == 0 && v) {
-            // print('0 pass $v');
+             print('0 pass $v');
             setState(() {
               favoriteOnHover[index] = true;
             });
           } else if (flag == 1 && v) {
-            //print('1 pass $v');
+            print('1 pass $v');
             setState(() {
               badOnHover[index] = true;
             });
@@ -190,10 +192,7 @@ class _AllContentPageState extends State<AllContentPage> {
         }
       }
     }
-
-    //rint('8888');
     if (10 < itemChildrenLength) {
-      //print('xxxx');
       widgetList.add(lastClickPage(index, context));
     }
     //print('9999');
@@ -245,8 +244,6 @@ class _AllContentPageState extends State<AllContentPage> {
                     MainContentControl.setComment(index: index, item: item, value: v, userId: userId, context: context);
                     // MainDash.of(context)!.setState(() {});
                     Body.of(context)!.setBool = false;
-
-
                     textEditingController[index].clear();
                   }
                 },

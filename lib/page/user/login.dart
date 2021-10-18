@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/control/login.dart';
 import 'package:web/model/shared.dart';
-import 'package:web/page/login/signup.dart';
 import 'package:web/page/mainDash.dart';
+import 'package:web/page/user/signup.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required this.userId}) : super(key: key);
@@ -16,6 +15,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   _LoginState({required this.userId22});
+
   final String userId22;
   bool aaa = false;
   Color btnColor = Colors.blueAccent;
@@ -23,18 +23,17 @@ class _LoginState extends State<Login> {
   final textFiledIdController = TextEditingController();
   final textFiledPassController = TextEditingController();
   bool logInCircle = true;
-  bool overClick = true ;
-
+  bool overClick = true;
 
   @override
   void dispose() {
     super.dispose();
-    print('login dispose pass');
+    print('user dispose pass');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('login build widget pass');
+    print('user build widget pass');
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -63,7 +62,6 @@ class _LoginState extends State<Login> {
                     child: TextField(
                         controller: textFiledIdController,
                         style: TextStyle(fontSize: 20),
-
                         decoration: const InputDecoration(
                             labelText: 'ID',
                             labelStyle: TextStyle(fontSize: 20),
@@ -187,7 +185,7 @@ class _LoginState extends State<Login> {
                       height: 60,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUp()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUp()));
                         },
                         child: Text(
                           '회원가입',
@@ -344,8 +342,9 @@ class _LoginState extends State<Login> {
   }
 
   bool checkshared = false;
+
   void _logInOperation(BuildContext context) async {
-    if(overClick){
+    if (overClick) {
       setState(() {
         logInCircle = !logInCircle;
       });
@@ -367,10 +366,9 @@ class _LoginState extends State<Login> {
 
         overClick = true;
       });
-
     }
-
   }
+
   void setUserId(String userid) {
     //SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     //MainDash.of(context)!.setChartPageValue = {'textFiledString':'888888'};
@@ -378,7 +376,10 @@ class _LoginState extends State<Login> {
     print('setUserId pass !! : $userid');
     MyShared.setUserId(userid);
     print('1');
-  //  Navigator.of(context).popAndPushNamed(MainDash.routeName);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainDash(userId: userid,)));
+    //  Navigator.of(context).popAndPushNamed(MainDash.routeName);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MainDash(
+              userId: userid,
+            )));
   }
 }

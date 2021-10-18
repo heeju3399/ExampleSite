@@ -102,3 +102,13 @@ class ResponseContent {
     return ResponseContent(mainDashContent: json['maindashcontent']);
   }
 }
+
+class ResponseUserContent {
+  const ResponseUserContent({required this.mainDashContent});
+  final List<dynamic> mainDashContent;
+
+
+  factory ResponseUserContent.fromJson(Map<dynamic, dynamic> json) {
+    return ResponseUserContent(mainDashContent: json['maindashcontent']);
+  }
+}

@@ -1,8 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:web/page/login/login.dart';
+
 import 'package:web/page/mainDash.dart';
-import 'dart:html' as html;
+import 'package:web/page/user/login.dart';
+import 'package:web/page/user/profile.dart';
+import 'package:web/page/windowDash/body.dart';
 import 'Content/writhcontent.dart';
 
 class Header extends StatefulWidget {
@@ -19,6 +22,15 @@ class _HeaderState extends State<Header> {
 
   final String userId;
   final TextEditingController controller = TextEditingController();
+
+
+  void ss ()async{
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ProFile(
+          userId: userId,
+        )));
+    Body.of(context)!.setBool = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +131,13 @@ class _HeaderState extends State<Header> {
                       } else {
                         //자신의 아이디로 로그인 했을때
                         //프로필?
-                        //html.window.location.reload();
+                        ss();
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => ProFile(
+                        //       userId: userId,
+                        //     )));
+                        // //Body.of(context)!.setBool = false;
+
                       }
                     },
                     child: Text(
@@ -137,10 +155,7 @@ class _HeaderState extends State<Header> {
                   child: InkWell(
                     onTap: () {
                       if (loginCheck) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => WriteContentMain(
-                                  userId: userId,
-                                )));
+                        test(context);
                       }
                     },
                     child: loginCheck
@@ -161,32 +176,38 @@ class _HeaderState extends State<Header> {
                             ),
                           ),
                   )),
-
-              SizedBox(
-                width: 20,
-              ),
-              Padding(
-                  //회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => WriteContentMain(
-                                  userId: 'admin',
-                                )));
-                      },
-                      child: Icon(
-                        Ionicons.create,
-                        size: 40,
-                        color: Colors.white,
-                      )))
-
-
+              //
+              // SizedBox(
+              //   width: 20,
+              // ),
+              // Padding(
+              //     //회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: InkWell(
+              //         onTap: () {
+              //           Navigator.of(context).push(MaterialPageRoute(
+              //               builder: (context) => WriteContentMain(
+              //                     userId: 'admin',
+              //                   )));
+              //         },
+              //         child: Icon(
+              //           Ionicons.create,
+              //           size: 40,
+              //           color: Colors.white,
+              //         )))
             ],
           ),
         ],
       ),
     );
+  }
+
+  void test(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => WriteContentMain(
+              userId: userId,
+            )));
+    MainDash.of(context)!.setBool = false;
   }
 
   void searchOK(int index) {

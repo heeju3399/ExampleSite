@@ -17,6 +17,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
   bool reloadCheck = true;
+
   set setBool (bool check) {
     reload();
   }
@@ -25,7 +26,7 @@ class _BodyState extends State<Body> {
     setState(() {
       reloadCheck = false;
     });
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(Duration(milliseconds: 5));
     setState(() {
       reloadCheck = true;
     });

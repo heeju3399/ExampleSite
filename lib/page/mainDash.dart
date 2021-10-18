@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web/model/mainContentTileColor.dart';
 import 'package:web/model/shared.dart';
 import 'package:web/page/windowDash/header.dart';
 import '../responsive.dart';
@@ -8,6 +9,7 @@ class MainDash extends StatefulWidget {
   const MainDash({Key? key, required this.userId}) : super(key: key);
   final String userId;
   static String routeName = '/MAIN_DASH';
+
   static _MainDashState? of(BuildContext context) => context.findAncestorStateOfType<_MainDashState>();
 
   @override
@@ -16,21 +18,27 @@ class MainDash extends StatefulWidget {
 
 class _MainDashState extends State<MainDash> {
   _MainDashState({required this.userId});
+
   String userId;
   bool floatingBTN = false;
   bool appBarCenterTitle = true;
   final List<String> items = List<String>.generate(0, (i) => 'Item $i');
   Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
-
   bool firstCheck = true;
-  bool resultRefresh = true;
-
-  void refresh () {
-    setState(() {
-      resultRefresh = !resultRefresh;
-    });
+  bool reloadCheck = true;
+  set setBool(bool check) {
+    reload();
   }
 
+  void reload() async {
+    setState(() {
+      reloadCheck = false;
+    });
+    await Future.delayed(Duration(milliseconds: 100));
+    setState(() {
+      reloadCheck = true;
+    });
+  }
 
   set setChartPageValue(Map map) {
     print('여기 통과????????????');
@@ -52,7 +60,6 @@ class _MainDashState extends State<MainDash> {
   //   });
   //   print('새로고침 $userId');
   // }
-
 
   void getTextFiledString(Map map) async {
     bool mapIsEmpty = map.isNotEmpty;
@@ -77,11 +84,11 @@ class _MainDashState extends State<MainDash> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: RawScrollbar(
-            thumbColor: Colors.white,
-            isAlwaysShown: true,
-            radius: Radius.circular(20),
-            thickness: 15,
-            child: SingleChildScrollView(physics: ScrollPhysics(),child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
+          thumbColor: Colors.white,
+          isAlwaysShown: true,
+          radius: Radius.circular(20),
+          thickness: 15,
+          child: SingleChildScrollView(physics: ScrollPhysics(), child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
         ),
         // floatingActionButton: FloatingActionButton(
         //         onPressed: () {
@@ -110,8 +117,8 @@ class _MainDashState extends State<MainDash> {
             color: Colors.red,
             height: 150,
             child: Text(
-              'Test Site',
-              textScaleFactor: 3,
+              'The screen is small and cannot be displayed.',
+              textScaleFactor: 2,
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -125,7 +132,7 @@ class _MainDashState extends State<MainDash> {
     appBarCenterTitle = true;
     return Center(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Divider(
@@ -141,14 +148,23 @@ class _MainDashState extends State<MainDash> {
           color: Colors.white12,
           indent: 0,
         ),
-        resultRefresh ?
-        Body(
-          textFiledMap: getTextFiledMap,
-          userId: userId,
-        ) : Padding(
-          padding: const EdgeInsets.only(top: 200),
-          child: Center(child: CircularProgressIndicator(),),
-        )
+        reloadCheck
+            ? Body(
+                textFiledMap: getTextFiledMap,
+                userId: userId,
+              )
+            : Padding(
+                padding: const EdgeInsets.only(top: 200),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+        Container(
+          height: 100,
+          color: Colors.black,
+          alignment: Alignment.center,
+          child: MainContentWidgetModel.myText('Test Corp')
+        ),
       ],
     ));
   }

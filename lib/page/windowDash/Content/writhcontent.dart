@@ -1,7 +1,10 @@
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:web/control/writeContent.dart';
+
 import 'package:web/page/dialog/dialog.dart';
+import 'package:web/page/mainDash.dart';
+import 'package:web/page/windowDash/body.dart';
 
 class WriteContentMain extends StatefulWidget {
   const WriteContentMain({Key? key, required this.userId}) : super(key: key);
@@ -14,6 +17,7 @@ class WriteContentMain extends StatefulWidget {
 
 class _WriteContentMainState extends State<WriteContentMain> {
   _WriteContentMainState({required this.userId});
+
   TextEditingController textFiledContentController = TextEditingController();
   final String userId;
 
@@ -24,8 +28,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
     print('userID : $userId');
     return Scaffold(
       ///////////////////////////////////////////////
-      appBar:
-      AppBar(
+      appBar: AppBar(
         title: Text('test widget'),
       ),
       ///////////////////////////////////////////////////
@@ -52,7 +55,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
                     child: TextField(
                         maxLines: 5,
                         onSubmitted: (v) {
-                          setContext();
+                          setContext(context);
                         },
                         controller: textFiledContentController,
                         style: TextStyle(fontSize: 20, color: Colors.white),
@@ -77,7 +80,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
                     padding: const EdgeInsets.all(18.0),
                     child: InkWell(
                         onTap: () {
-                          setContext();
+                          setContext(context);
                         },
                         child: Container(
                           width: 250,
@@ -105,7 +108,7 @@ class _WriteContentMainState extends State<WriteContentMain> {
   bool overClick = true;
   bool logInCircle = true;
 
-  void setContext() async {
+  void setContext(BuildContext context) async {
     print('setcontext pass');
     if (overClick) {
       setState(() {
@@ -119,7 +122,8 @@ class _WriteContentMainState extends State<WriteContentMain> {
           if (map.values.first == 'pass') {
             //바로 메인 대쉬로 ㄱㄱ
             Navigator.of(context).pop();
-            html.window.location.reload();
+
+            //html.window.location.reload();
           } else {
             MyDialog.setContentDialog(title: '${map.values.first}', message: '${map.values.last}', context: context);
           }

@@ -22,11 +22,33 @@ class MainContentControl {
     return resultMap;
   }
 
+  static Future<List<MainContentDataModel>> getUserContents({required String userId}) async {
+    print('getUserContents pass');
+    List response = [];
+    List<MainContentDataModel> returnList = [];
+    await NodeServer.getUserContents(userId: userId).then((value) => {response = value});
+    try {
+      if (response.first == 'pass') {
+        response = response.last;
+        response.forEach((element) {
+          MainContentDataModel mainContentDataModel = MainContentDataModel.fromJson(jsonDecode(jsonEncode(element)));
+          //print('$element');
+          returnList.add(mainContentDataModel);
+        });
+      }
+    } catch (e) {
+      print('오오오오오오오오오오억 *-* ($e)');
+    }
+    //returnList = returnList.reversed.toList();
+    return returnList;
+  }
+
   static Future<List<MainContentDataModel>> getContent2() async {
     List response = [];
     List<MainContentDataModel> returnList = [];
     await NodeServer.getAllContents().then((value) => {response = value});
-
+  print('///////////////////////////////');
+  print(response);
     try {
       if (response.first == 'pass') {
         response = response.last;
@@ -42,41 +64,6 @@ class MainContentControl {
     return returnList;
   }
 
-  static Future<List<MainCommentDataModel>> getComment() async {
-    List response = [];
-    List<MainCommentDataModel> returnList = [];
-    MainCommentDataModel mainContentDataModel = MainCommentDataModel(userId: 'kk',visible: '1',createTime: '2300', comment: '안녕하세요 ㅋ11');
-    returnList.add(mainContentDataModel);
-    MainCommentDataModel mainContentDataModel2 = MainCommentDataModel(userId: 'kk',visible: '1',createTime: '2300', comment: '안녕하세요 ㅋ22');
-    returnList.add(mainContentDataModel2);
-    MainCommentDataModel mainContentDataModel3 = MainCommentDataModel(userId: 'kk',visible: '1',createTime: '2300', comment: '안녕하세요 ㅋ33');
-    returnList.add(mainContentDataModel3);
-    returnList.add(mainContentDataModel3);
-    returnList.add(mainContentDataModel3);
-    // await NodeServer.getAllContents().then((value) => {response = value});
-    //
-    // try {
-    //   if (response.first == 'pass') {
-    //     response = response.last;
-    //     response.forEach((element) {
-    //       MainContentDataModel mainContentDataModel = MainContentDataModel.fromJson(jsonDecode(jsonEncode(element)));
-    //       returnList.add(mainContentDataModel);
-    //     });
-    //   }
-    // } catch (e) {
-    //   print('오오오오오오오오오오억 *-* ($e)');
-    // }
-    //returnList = returnList.reversed.toList();
-    return returnList;
-  }
-
-  static Future<bool> setCommentEx() async {
-    bool result = false;
-
-
-    return result;
-  }
-
   static Future<bool> setComment({required String value, required int index, required MainContentDataModel item, required String userId, required BuildContext context}) async {
     bool result = false;
     print('setcomment pass');
@@ -85,20 +72,21 @@ class MainContentControl {
     print(' userid : $userId');
     print(' contentId : ${item.contentId}');
     print('setcomment pass');
-    var contentEncode = utf8.encode(value);//변환후 입력해야함
+    var contentEncode = utf8.encode(value); //변환후 입력해야함
     MainCommentDataModel mainCommentDataModel = MainCommentDataModel(comment: '$contentEncode', userId: userId, createTime: '${DateTime.now()}', visible: '1');
-    await NodeServer.setComment(comment: mainCommentDataModel, contentId: item.contentId).then((value) => {
-      result = value
-    });
-    if(result){
-      //html.window.location.reload();
-
-    }
+    await NodeServer.setComment(comment: mainCommentDataModel, contentId: item.contentId).then((value) => {result = value});
 
     return result;
   }
 
-  static void setLikeAndBad(int flag, MainContentDataModel item, int index) {}
+  static void setLikeAndBad({required int flag, required int contentId}) {
+    NodeServer.setLikeAndBad(contentId: contentId, likeAndBad: flag).then((value) => {});
+  }
+
+  static void deleteContent(int contentId, String userId) {
+    NodeServer.deleteContent(contentId, userId);//bool 타입으로 리턴되는데 뭐쓰지?
+  }
+
 }
 
 // print('=============================aaaaaaaaaaaaaaaaaaaaa====================================');

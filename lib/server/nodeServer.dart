@@ -6,13 +6,76 @@ import 'package:web/model/login.dart';
 import 'package:web/model/signUp.dart';
 
 class NodeServer {
+  static Future<bool> deleteContent(int contentId, String userId) async {
+    String flag = 'deleteContent';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    bool returnResult = false;
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "flag": '$flag', "contentid": '$contentId',"id": '$userId'};
+    try {
+      var response = await http.post(Uri.parse('http://localhost:3000/deletecontent'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        Map responseValue = jsonDecode(response.body);
+        //result = result.substring(10, 14);
+        //print('responseValue?? $responseValue');
+        if (responseValue.values.first.contains('pass')) {
+          returnResult = true;
+        } else if (responseValue.values.first.contains('no')) {
+          returnResult = false;
+        }
+      }
+    } catch (e) {
+      print('setComment error :$e');
+      returnResult = false;
+    }
+    print('return value : $returnResult');
+    return returnResult;
+  }
+
+  static Future<List<dynamic>> getUserContents({required String userId}) async {
+    String flag = 'getusercontent';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    Map<String, String> map = Map();
+    List returnList = [];
+    map = {"siteKey": '$siteKey', "flag": '$flag', "id": '$userId'};
+    try {
+      var response = await http.post(Uri.parse('http://localhost:3000/getusercontent'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        Map<dynamic, dynamic> responsePassCheck = jsonDecode(response.body);
+        if (responsePassCheck.values.elementAt(0).contains('pass')) {
+          returnList.add('pass');
+          String mainDashContent = responsePassCheck.values.elementAt(1).toString();
+          returnList.add(jsonDecode(mainDashContent));
+        }
+      } else {
+        returnList.add('no');
+      }
+    } catch (e) {
+      print('에러남 -_- : $e');
+      returnList.add('err');
+    }
+    //print('returnListreturnListreturnList pre : $returnList');
+    return returnList;
+  }
 
   static Future<bool> setComment({required MainCommentDataModel comment, required int contentId}) async {
     String flag = 'setcomment';
     String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
     bool returnResult = false;
     Map<String, String> map = Map();
-    map = {"siteKey": '$siteKey', "id": '${comment.userId}', "comment": '${comment.comment}', "flag": '$flag', "nowtime": '${comment.createTime}', "visible": '${comment.visible}', "contentid": '$contentId'};
+    map = {
+      "siteKey": '$siteKey',
+      "id": '${comment.userId}',
+      "comment": '${comment.comment}',
+      "flag": '$flag',
+      "nowtime": '${comment.createTime}',
+      "visible": '${comment.visible}',
+      "contentid": '$contentId'
+    };
     try {
       var response = await http.post(Uri.parse('http://localhost:3000/setcomment'), headers: map);
       int stateCode = response.statusCode;
@@ -23,7 +86,6 @@ class NodeServer {
         result = result.substring(10, 14);
         print('sub?? $result');
         if (result.contains('pass')) {
-
           returnResult = true;
         } else if (result.contains('no')) {
           returnResult = false;
@@ -36,21 +98,6 @@ class NodeServer {
     print('return value : $returnResult');
     return returnResult;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   static Future<String> fetchPost() async {
     var response;
@@ -108,39 +155,35 @@ class NodeServer {
   //   // });
   // }
 
-  // void setLikeAndBad() async {
-  //   String flag = 'setcontent';
-  //   String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
-  //   bool returnResult = false;
-  //   String nowTime = DateTime.now().toString();
-  //   String visible = '1';
-  //   print('contetn : $content');
-  //   var contentEncode = utf8.encode(content);
-  //   //var contentDe = utf8.decode(contentEncode);
-  //   Map<String, String> map = Map();
-  //   map = {"siteKey": '$siteKey', "id": '$userId', "content": '$contentEncode', "flag": '$flag', "nowtime": '$nowTime', "visible": '$visible'};
-  //   try {
-  //     var response = await http.post(Uri.parse('http://localhost:3000/setlikeandbad'), headers: map);
-  //     int stateCode = response.statusCode;
-  //     print('$stateCode pass');
-  //     if (stateCode == 200) {
-  //       String result = response.body.toString();
-  //       print('body : $result');
-  //       result = result.substring(10,14);
-  //       print('sub?? $result');
-  //       if(result.contains('pass')){
-  //         returnResult = true;
-  //       }else if(result.contains('no')){
-  //         returnResult = false;
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     returnResult = false;
-  //   }
-  //   print('return pre : $returnResult');
-  //   return returnResult;
-  // }
+  static Future<bool> setLikeAndBad({required int contentId, required int likeAndBad}) async {
+    String flag = 'setlikeandbad';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    bool returnResult = false;
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "flag": '$flag', "likeandbad": '$likeAndBad', "contentid": '$contentId'};
+
+    try {
+      var response = await http.post(Uri.parse('http://localhost:3000/setlikeandbad'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        String result = response.body.toString();
+        print('body : $result');
+        result = result.substring(10, 14);
+        print('sub?? $result');
+        if (result.contains('pass')) {
+          returnResult = true;
+        } else if (result.contains('no')) {
+          returnResult = false;
+        }
+      }
+    } catch (e) {
+      print(e);
+      returnResult = false;
+    }
+    print('return pre : $returnResult');
+    return returnResult;
+  }
 
   void getLikeAndBad() async {}
 
@@ -190,14 +233,17 @@ class NodeServer {
       print('$stateCode pass');
       if (stateCode == 200) {
         Map<dynamic, dynamic> responsePassCheck = jsonDecode(response.body);
-        if (responsePassCheck.values.elementAt(0).contains('pass')) {// pass 인지?
+        if (responsePassCheck.values.elementAt(0).contains('pass')) {
+          // pass 인지?
+          print('pass _ pass');
           returnList.add('pass');
-          Map mainDashContent = responsePassCheck.values.elementAt(1);
-          ResponseContent unMainDashContent = ResponseContent.fromJson(mainDashContent);
+          List<dynamic> mainDashContent = responsePassCheck.values.elementAt(1);
+          returnList.add(mainDashContent);
+          //ResponseContent unMainDashContent = ResponseContent.fromJson(value);
           //print('/************************** ${unMainDashContent.mainDashContent}');
-          returnList.add(unMainDashContent.mainDashContent);
+
         }
-      }else{
+      } else {
         returnList.add('no');
       }
     } catch (e) {
@@ -247,7 +293,7 @@ class NodeServer {
     Map<String, String> map = Map();
     map = {"siteKey": '$siteKey', "id": '$id', "pass": '$pass', "flag": '$flag'};
     try {
-      response = await http.post(Uri.parse('http://localhost:3000/login'), headers: map);
+      response = await http.post(Uri.parse('http://localhost:3000/user'), headers: map);
       //print('response : ${response.body}');
       //print('response.statusCode : ${response.statusCode}');
       int stateCode = response.statusCode;

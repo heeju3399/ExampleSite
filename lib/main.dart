@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TestSite',
       home: MainDash(userId: this.userId),
-
     );
   }
 }
