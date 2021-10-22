@@ -233,7 +233,7 @@ class _LoginState extends State<Login> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset('./images/naver.ico'),
+                          child: Image.asset('./assets/images/naver.ico'),
                         ),
                         Spacer(
                           flex: 5,
@@ -264,7 +264,7 @@ class _LoginState extends State<Login> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset('./images/kakao.png'),
+                          child: Image.asset('./assets/images/kakao.png'),
                         ),
                         Spacer(
                           flex: 5,
@@ -295,7 +295,7 @@ class _LoginState extends State<Login> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset('./images/google.png'),
+                          child: Image.asset('./assets/images/google.png'),
                         ),
                         Spacer(
                           flex: 5,

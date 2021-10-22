@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -22,15 +21,6 @@ class _HeaderState extends State<Header> {
 
   final String userId;
   final TextEditingController controller = TextEditingController();
-
-
-  void ss ()async{
-    await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ProFile(
-          userId: userId,
-        )));
-    Body.of(context)!.setBool = false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +61,6 @@ class _HeaderState extends State<Header> {
                   width: 350,
                   child: TextField(
                     controller: controller,
-                    autofocus: true,
-                    textInputAction: TextInputAction.go,
                     onSubmitted: (text) {
                       print(text);
                       searchOK(0);
@@ -131,7 +119,7 @@ class _HeaderState extends State<Header> {
                       } else {
                         //자신의 아이디로 로그인 했을때
                         //프로필?
-                        ss();
+                        myProfile();
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (context) => ProFile(
                         //       userId: userId,
@@ -155,7 +143,7 @@ class _HeaderState extends State<Header> {
                   child: InkWell(
                     onTap: () {
                       if (loginCheck) {
-                        test(context);
+                        writeContent(context);
                       }
                     },
                     child: loginCheck
@@ -164,45 +152,16 @@ class _HeaderState extends State<Header> {
                             size: 40,
                             color: Colors.white,
                           )
-                        : InkWell(
-                            onTap: () {
-                              print('refresh!');
-                              // html.window.location.reload();
-                            },
-                            child: Icon(
-                              Ionicons.refresh_circle_outline,
-                              size: 40,
-                              color: Colors.white,
-                            ),
-                          ),
-                  )),
-              //
-              // SizedBox(
-              //   width: 20,
-              // ),
-              // Padding(
-              //     //회원가입이 안되어 있으면 버튼 눌려지지 않게? 아니면 버튼 누르면 회원가입 유도
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: InkWell(
-              //         onTap: () {
-              //           Navigator.of(context).push(MaterialPageRoute(
-              //               builder: (context) => WriteContentMain(
-              //                     userId: 'admin',
-              //                   )));
-              //         },
-              //         child: Icon(
-              //           Ionicons.create,
-              //           size: 40,
-              //           color: Colors.white,
-              //         )))
-            ],
-          ),
-        ],
-      ),
+                        : Container()
+                  ))
+            ]
+          )
+        ]
+      )
     );
   }
 
-  void test(BuildContext context) async {
+  void writeContent(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => WriteContentMain(
               userId: userId,
@@ -218,5 +177,13 @@ class _HeaderState extends State<Header> {
     print('search icon click :$text');
     MainDash.of(context)!.setChartPageValue = {'textFiledString': '$text'};
     controller.clear();
+  }
+
+  void myProfile() async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => ProFile(
+              userId: userId,
+            )));
+    MainDash.of(context)!.setBool = false;
   }
 }

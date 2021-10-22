@@ -1,19 +1,17 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:web/model/content.dart';
-import 'package:web/model/mainContentTileColor.dart';
 
-class CommentPage extends StatefulWidget {
-  const CommentPage({Key? key, required this.content}) : super(key: key);
+class MobileCommentPage extends StatefulWidget {
+  const MobileCommentPage({Key? key, required this.content}) : super(key: key);
   final MainContentDataModel content;
 
   @override
-  _CommentPageState createState() => _CommentPageState(content: content);
+  _MobileCommentPageState createState() => _MobileCommentPageState(content: content);
 }
 
-class _CommentPageState extends State<CommentPage> {
-  _CommentPageState({required this.content});
+class _MobileCommentPageState extends State<MobileCommentPage> {
+  _MobileCommentPageState({required this.content});
 
   final MainContentDataModel content;
   double height = 0.0;
@@ -31,7 +29,8 @@ class _CommentPageState extends State<CommentPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('덧글 페이지 지울 수 있지만 저장되지 않습니다'),
+        title: Text('덧글 페이지 지울 수 있지만 저장되지 않습니다',style: TextStyle(fontSize: 15),),
+        backgroundColor: Colors.white12,
       ),
       backgroundColor: Colors.black,
       body: SizedBox(
@@ -43,11 +42,9 @@ class _CommentPageState extends State<CommentPage> {
               padding: EdgeInsets.all(20),
               child: Container(
                 alignment: Alignment.center,
-                width: 500,
-                height: 100,
                 child: Text(
                   '$contentString',
-                  textScaleFactor: 3,
+                  textScaleFactor: 2,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -55,8 +52,8 @@ class _CommentPageState extends State<CommentPage> {
             SingleChildScrollView(
                 child: Center(
                     child: Container(
-                        width: 800,
-                        height: height - 200,
+                        width: 490,
+                        height: height - 140,
                         alignment: Alignment.topCenter,
                         child: ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
@@ -71,31 +68,29 @@ class _CommentPageState extends State<CommentPage> {
                             String commentString = utf8.decode(ss2);
 
                             return Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(5.0),
                                 child: Card(
                                     child: Container(
-                                        width: 900,
-
                                         decoration: BoxDecoration(
                                             color: Colors.black,
                                             border: Border.all(
                                               width: 1,
                                               color: Colors.white,
                                             )),
-                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.end, children: [
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, children: [
                                           Expanded(
                                               flex: 9,
                                               child: Padding(
-                                                  padding: const EdgeInsets.all(18.0),
-                                                  child: Text('NO $index \n $commentString', overflow: TextOverflow.clip, maxLines: 5, style: TextStyle(fontSize: 25, color: Colors.white)))),
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Text('NO $index \n $commentString', overflow: TextOverflow.clip, maxLines: 5, style: TextStyle(fontSize: 15, color: Colors.white)))),
                                           Expanded(
                                               flex: 1,
                                               child: Padding(
-                                                  padding: const EdgeInsets.all(18.0),
+                                                  padding: const EdgeInsets.all(8.0),
                                                   child: IconButton(
                                                     icon: Icon(Icons.delete_forever),
                                                     color: Colors.white,
-                                                    iconSize: 30,
+                                                    iconSize: 15,
                                                     onPressed: () {
                                                       content.children.removeAt(index);
                                                       setState(() {});

@@ -1,10 +1,6 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:web/control/writeContent.dart';
-
 import 'package:web/page/dialog/dialog.dart';
-import 'package:web/page/mainDash.dart';
-import 'package:web/page/windowDash/body.dart';
 
 class WriteContentMain extends StatefulWidget {
   const WriteContentMain({Key? key, required this.userId}) : super(key: key);
@@ -54,6 +50,8 @@ class _WriteContentMainState extends State<WriteContentMain> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                         maxLines: 5,
+                        textInputAction: TextInputAction.go,
+                        autofocus: true,
                         onSubmitted: (v) {
                           setContext(context);
                         },

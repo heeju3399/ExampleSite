@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:web/exex/mainDashFailed.dart';
+
 import 'package:web/model/content.dart';
-import 'dart:html' as html;
+import 'package:web/model/shared.dart';
 import 'package:web/server/nodeServer.dart';
+import 'dart:html'as html;
 
 class MainContentControl {
   static Future<Map> setContent({required String content, required String userId}) async {
@@ -23,7 +24,7 @@ class MainContentControl {
   }
 
   static Future<List<MainContentDataModel>> getUserContents({required String userId}) async {
-    print('getUserContents pass');
+    //print('getUserContents pass');
     List response = [];
     List<MainContentDataModel> returnList = [];
     await NodeServer.getUserContents(userId: userId).then((value) => {response = value});
@@ -47,8 +48,8 @@ class MainContentControl {
     List response = [];
     List<MainContentDataModel> returnList = [];
     await NodeServer.getAllContents().then((value) => {response = value});
-  print('///////////////////////////////');
-  print(response);
+    //print('///////////////////////////////');
+    //print(response);
     try {
       if (response.first == 'pass') {
         response = response.last;
@@ -66,12 +67,12 @@ class MainContentControl {
 
   static Future<bool> setComment({required String value, required int index, required MainContentDataModel item, required String userId, required BuildContext context}) async {
     bool result = false;
-    print('setcomment pass');
-    print(' value  : $value');
-    print(' index : $index');
-    print(' userid : $userId');
-    print(' contentId : ${item.contentId}');
-    print('setcomment pass');
+    // print('setcomment pass');
+    // print(' value  : $value');
+    // print(' index : $index');
+    // print(' userid : $userId');
+    // print(' contentId : ${item.contentId}');
+    // print('setcomment pass');
     var contentEncode = utf8.encode(value); //변환후 입력해야함
     MainCommentDataModel mainCommentDataModel = MainCommentDataModel(comment: '$contentEncode', userId: userId, createTime: '${DateTime.now()}', visible: '1');
     await NodeServer.setComment(comment: mainCommentDataModel, contentId: item.contentId).then((value) => {result = value});
@@ -84,9 +85,29 @@ class MainContentControl {
   }
 
   static void deleteContent(int contentId, String userId) {
-    NodeServer.deleteContent(contentId, userId);//bool 타입으로 리턴되는데 뭐쓰지?
+    NodeServer.deleteContent(contentId, userId); //bool 타입으로 리턴되는데 뭐쓰지?
   }
 
+  static void deleteAllContent(int contentId, String userId) {
+    NodeServer.deleteAllContent(contentId, userId);
+  }
+
+  static void deleteComment({required int contentId, required String userId, required int order}) async {
+    NodeServer.deleteComment(order: order, userId: userId, contentId: contentId); //bool 타입으로 리턴되는데 뭐쓰지?
+  }
+
+  static void userDelete({required String userId}) async {
+    bool check = false;
+    await NodeServer.userDelete(userId: userId).then((value) => {
+      check = value
+    }); //bool 타입으로 리턴되는데 뭐쓰지?
+    if(check){
+      MyShared.setUserId('LogIn');
+      html.window.location.reload();
+    }else{
+
+    }
+  }
 }
 
 // print('=============================aaaaaaaaaaaaaaaaaaaaa====================================');

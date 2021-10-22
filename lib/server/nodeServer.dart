@@ -6,6 +6,61 @@ import 'package:web/model/login.dart';
 import 'package:web/model/signUp.dart';
 
 class NodeServer {
+
+  static Future<bool> userDelete({required String userId}) async {
+    String flag = 'userDelete';
+    String ip = 'http://172.30.1.19:3000/userdelete';
+    String ip2 = '';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    bool returnResult = false;
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "flag": '$flag', "id": '$userId'};
+    try {
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/userdelete'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        Map responseValue = jsonDecode(response.body);
+        if (responseValue.values.first.contains('pass')) {
+          returnResult = true;
+        } else if (responseValue.values.first.contains('no')) {
+          returnResult = false;
+        }
+      }
+    } catch (e) {
+      print('deleteComment error :$e');
+      returnResult = false;
+    }
+    //print('return value : $returnResult');
+    return returnResult;
+  }
+
+  static Future<bool> deleteComment({required int contentId,required String userId, required int order}) async {
+    String flag = 'deleteComment';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    bool returnResult = false;
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "flag": '$flag', "contentid": '$contentId',"id": '$userId', "order": '$order' };
+    try {
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/deletecomment'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        Map responseValue = jsonDecode(response.body);
+        if (responseValue.values.first.contains('pass')) {
+          returnResult = true;
+        } else if (responseValue.values.first.contains('no')) {
+          returnResult = false;
+        }
+      }
+    } catch (e) {
+      print('deleteComment error :$e');
+      returnResult = false;
+    }
+    //print('return value : $returnResult');
+    return returnResult;
+  }
+
   static Future<bool> deleteContent(int contentId, String userId) async {
     String flag = 'deleteContent';
     String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
@@ -13,7 +68,7 @@ class NodeServer {
     Map<String, String> map = Map();
     map = {"siteKey": '$siteKey', "flag": '$flag', "contentid": '$contentId',"id": '$userId'};
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/deletecontent'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/deletecontent'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -30,7 +85,35 @@ class NodeServer {
       print('setComment error :$e');
       returnResult = false;
     }
-    print('return value : $returnResult');
+    //print('return value : $returnResult');
+    return returnResult;
+  }
+
+  static Future<bool> deleteAllContent(int contentId, String userId) async {
+    String flag = 'deleteAllContent';
+    String siteKey = 'secretKey'; //실제 쓰일댄 이렇게 쓰면안됨 파이버 베이스 같은곳에 넣어서 쓰기
+    bool returnResult = false;
+    Map<String, String> map = Map();
+    map = {"siteKey": '$siteKey', "flag": '$flag', "contentid": '$contentId',"id": '$userId'};
+    try {
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/deleteallcontent'), headers: map);
+      int stateCode = response.statusCode;
+      print('$stateCode pass');
+      if (stateCode == 200) {
+        Map responseValue = jsonDecode(response.body);
+        //result = result.substring(10, 14);
+        //print('responseValue?? $responseValue');
+        if (responseValue.values.first.contains('pass')) {
+          returnResult = true;
+        } else if (responseValue.values.first.contains('no')) {
+          returnResult = false;
+        }
+      }
+    } catch (e) {
+      print('setComment error :$e');
+      returnResult = false;
+    }
+    //print('return value : $returnResult');
     return returnResult;
   }
 
@@ -41,7 +124,7 @@ class NodeServer {
     List returnList = [];
     map = {"siteKey": '$siteKey', "flag": '$flag', "id": '$userId'};
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/getusercontent'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/getusercontent'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -77,7 +160,7 @@ class NodeServer {
       "contentid": '$contentId'
     };
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/setcomment'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/setcomment'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -95,7 +178,7 @@ class NodeServer {
       print('setComment error :$e');
       returnResult = false;
     }
-    print('return value : $returnResult');
+    //print('return value : $returnResult');
     return returnResult;
   }
 
@@ -163,7 +246,7 @@ class NodeServer {
     map = {"siteKey": '$siteKey', "flag": '$flag', "likeandbad": '$likeAndBad', "contentid": '$contentId'};
 
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/setlikeandbad'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/setlikeandbad'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -181,7 +264,7 @@ class NodeServer {
       print(e);
       returnResult = false;
     }
-    print('return pre : $returnResult');
+    //print('return pre : $returnResult');
     return returnResult;
   }
 
@@ -199,7 +282,7 @@ class NodeServer {
     Map<String, String> map = Map();
     map = {"siteKey": '$siteKey', "id": '$userId', "content": '$contentEncode', "flag": '$flag', "nowtime": '$nowTime', "visible": '$visible'};
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/setcontent'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/setcontent'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -217,7 +300,7 @@ class NodeServer {
       print('error :$e');
       returnResult = false;
     }
-    print('return pre : $returnResult');
+    //print('return pre : $returnResult');
     return returnResult;
   }
 
@@ -228,7 +311,7 @@ class NodeServer {
     List returnList = [];
     map = {"siteKey": '$siteKey', "flag": '$flag'};
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/getallcontent'), headers: map);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/getallcontent'), headers: map);
       int stateCode = response.statusCode;
       print('$stateCode pass');
       if (stateCode == 200) {
@@ -293,7 +376,7 @@ class NodeServer {
     Map<String, String> map = Map();
     map = {"siteKey": '$siteKey', "id": '$id', "pass": '$pass', "flag": '$flag'};
     try {
-      response = await http.post(Uri.parse('http://localhost:3000/user'), headers: map);
+      response = await http.post(Uri.parse('http://172.30.1.19:3000/login'), headers: map);
       //print('response : ${response.body}');
       //print('response.statusCode : ${response.statusCode}');
       int stateCode = response.statusCode;
@@ -326,7 +409,7 @@ class NodeServer {
     SignupResponse signUpResponse = SignupResponse(stateCode: 000, message: '서버 접속 불가', title: 'err');
 
     try {
-      var response = await http.post(Uri.parse('http://localhost:3000/signup'), headers: requestMap);
+      var response = await http.post(Uri.parse('http://172.30.1.19:3000/signup'), headers: requestMap);
       //print('response : ${response.body}');
       //print('response.statusCode : ${response.statusCode}');
       //print('==========================================');

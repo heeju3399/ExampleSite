@@ -5,6 +5,9 @@ import 'package:flutter/rendering.dart';
 import 'package:web/control/content.dart';
 import 'package:web/model/content.dart';
 import 'package:web/model/mainContentTileColor.dart';
+import 'package:web/model/shared.dart';
+import 'package:web/page/dialog/dialog.dart';
+import 'package:web/page/windowDash/Content/CommentPage.dart';
 import 'package:web/page/windowDash/body.dart';
 
 class AllContentPage extends StatefulWidget {
@@ -144,11 +147,10 @@ class _AllContentPageState extends State<AllContentPage> {
           //flag 1 싫어요
           MainContentControl.setLikeAndBad(contentId: contentId, flag: flag);
           Body.of(context)!.setBool = false;
-
         },
         onHover: (v) {
           if (flag == 0 && v) {
-             print('0 pass $v');
+            print('0 pass $v');
             setState(() {
               favoriteOnHover[index] = true;
             });
@@ -175,9 +177,9 @@ class _AllContentPageState extends State<AllContentPage> {
   }
 
   List<Widget> tenComment(MainContentDataModel item, int index, BuildContext context) {
-    print('====all comment pass====');
+    //print('====all comment pass====');
     int itemChildrenLength = item.children.length;
-    print('itemChildrenLength : $itemChildrenLength');
+    //print('itemChildrenLength : $itemChildrenLength');
     //MainCommentDataModel mainCommentDataModel = item.children[index];
 
     widgetList = [inputComment(item, index, context)];
@@ -186,14 +188,14 @@ class _AllContentPageState extends State<AllContentPage> {
       if (i < itemChildrenLength) {
         try {
           MainCommentDataModel mainCommentDataModel = MainCommentDataModel.fromJson(item.children[i]);
-          widgetList.add(commentList(mainCommentDataModel, item, index, i));
+          widgetList.add(commentList(mainCommentDataModel, item, i));
         } catch (e) {
           print('tenComment err *_* ;; $e');
         }
       }
     }
     if (10 < itemChildrenLength) {
-      widgetList.add(lastClickPage(index, context));
+      widgetList.add(lastClickPage(index, item, context));
     }
     //print('9999');
     widgetList.add(Divider(
@@ -203,7 +205,7 @@ class _AllContentPageState extends State<AllContentPage> {
     return widgetList;
   }
 
-  Widget lastClickPage(int index, BuildContext context) {
+  Widget lastClickPage(int index,MainContentDataModel item, BuildContext context) {
     // print('last click page pass');
     return Padding(
       padding: const EdgeInsets.all(18.0),
@@ -220,7 +222,7 @@ class _AllContentPageState extends State<AllContentPage> {
             //   //print('comment?? ${element.comment}');
             // });
             // //print('comment?? ${itemedd.content}');
-            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentPage(content: itemedd)));
+             Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentPage(content: item)));
           },
           //  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
         ),
@@ -230,7 +232,7 @@ class _AllContentPageState extends State<AllContentPage> {
 
   //댓글입력창
   Widget inputComment(MainContentDataModel item, int index, BuildContext context) {
-    print('input comment pass');
+    //print('input comment pass');
     return Container(
         width: 890,
         child: Padding(
@@ -241,10 +243,16 @@ class _AllContentPageState extends State<AllContentPage> {
                 onSubmitted: (v) {
                   print('덧글 입력 : $v');
                   if (v != '' && v.isNotEmpty) {
-                    MainContentControl.setComment(index: index, item: item, value: v, userId: userId, context: context);
-                    // MainDash.of(context)!.setState(() {});
-                    Body.of(context)!.setBool = false;
-                    textEditingController[index].clear();
+                    if (userId != 'LogIn') {
+                      MainContentControl.setComment(index: index, item: item, value: v, userId: userId, context: context);
+                      // MainDash.of(context)!.setState(() {});
+                      Body.of(context)!.setBool = false;
+                      textEditingController[index].clear();
+                    }else{
+                      textEditingController[index].clear();
+                      MyDialog.setContentDialog(title: '접속불가', message: '로그인 부탁드려요', context: context);
+                    }
+
                   }
                 },
                 style: TextStyle(fontSize: 25, color: Colors.white),
@@ -266,7 +274,7 @@ class _AllContentPageState extends State<AllContentPage> {
                     )))));
   }
 
-  Widget commentList(MainCommentDataModel comment, MainContentDataModel item, int index, int i) {
+  Widget commentList(MainCommentDataModel comment, MainContentDataModel item, int order) {
     //print('commentList commentList pass');
     List<dynamic> utf8List = jsonDecode(comment.comment);
     List<int> intList = [];
@@ -274,6 +282,13 @@ class _AllContentPageState extends State<AllContentPage> {
       intList.add(element);
     });
     String decodeComment = utf8.decode(intList).toString();
+    /////////////////////
+    bool myIdCheck = false;
+    if (comment.userId == userId) {
+      myIdCheck = true;
+    }
+
+    /////////////////////
 
     return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -286,35 +301,36 @@ class _AllContentPageState extends State<AllContentPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Container(
-                    width: 920,
-                    child:
-                        // Text(
-                        //   '$decodeComment',
-                        //   style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: MainContentWidgetModel.basicFontSize),
-                        //   maxLines: 5,
-                        //   overflow: TextOverflow.clip,
-                        // ),
-                        Text(
+                    width: 850,
+                    child: Text(
                       decodeComment,
                       style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: MainContentWidgetModel.basicFontSize),
                       maxLines: 5,
                       overflow: TextOverflow.clip,
                     ),
                   ),
-                  IconButton(
-                      //delete
-                      icon: Icon(
-                        Icons.delete_forever,
-                        color: MainContentWidgetModel.iconColor,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        print('delete pass : $i');
-                        //print(widgetList.toString());
-                        //item.children.removeAt(i);
-                        print('***********************************');
-                        setState(() {});
-                      })
+                  myIdCheck
+                      ? IconButton(
+                          //내가 적은 덧글이면 휴지통 표시가 나오고 아니면 아묵것도 안나오는것롤 !!
+                          //delete
+                          icon: Icon(
+                            Icons.delete_forever,
+                            color: MainContentWidgetModel.iconColor,
+                            size: 30,
+                          ),
+                          onPressed: () {
+                            //content id , index
+                            print('***********************************');
+                            print('userid : ${item.userId}');
+                            print('contentid : ${item.contentId}');
+                            print('덧글 목록 차수 : $order');
+                            MainContentControl.deleteComment(contentId: item.contentId, userId: userId, order: order);
+                            Body.of(context)!.setBool = false;
+                            print('***********************************');
+                          })
+                      : Container(
+                          child: MainContentWidgetModel.myText('${comment.userId}'),
+                        ),
                 ]))));
   }
 }

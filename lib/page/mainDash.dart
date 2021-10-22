@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:web/model/mainContentTileColor.dart';
 import 'package:web/model/shared.dart';
+import 'package:web/page/user/mobileLogIn.dart';
+import 'package:web/page/user/profile.dart';
 import 'package:web/page/windowDash/header.dart';
 import '../responsive.dart';
+import 'mobileDash/content/mobileWriteContentPage.dart';
+import 'mobileDash/mobildMainBody.dart';
+import 'mobileDash/mobileMainHead.dart';
+
 import 'windowDash/body.dart';
 
 class MainDash extends StatefulWidget {
@@ -26,11 +32,13 @@ class _MainDashState extends State<MainDash> {
   Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
   bool firstCheck = true;
   bool reloadCheck = true;
+
   set setBool(bool check) {
     reload();
   }
 
   void reload() async {
+    print('pass **************************************************');
     setState(() {
       reloadCheck = false;
     });
@@ -51,16 +59,6 @@ class _MainDashState extends State<MainDash> {
     super.initState();
   }
 
-  // @override
-  // void reassemble() async {
-  //   super.reassemble();
-  //   await MyShared.getUserId().then((value) => {
-  //     userId = value.toString(),
-  //     print(value)
-  //   });
-  //   print('새로고침 $userId');
-  // }
-
   void getTextFiledString(Map map) async {
     bool mapIsEmpty = map.isNotEmpty;
     if (mapIsEmpty) {
@@ -72,100 +70,113 @@ class _MainDashState extends State<MainDash> {
     }
   }
 
+  void mobileWriteContent(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MobileWriteContentMain(
+              userId: userId,
+            )));
+    reload();
+  }
+
   @override
   Widget build(BuildContext context) {
     print('===Main dash build widget pass userID : $userId ===');
     return WillPopScope(
-      onWillPop: () {
-        print('뭐지이건?');
-        Navigator.pop(context);
-        return Future(() => true);
-      },
-      child: Scaffold(
+        onWillPop: () {
+          print('뭐지이건?');
+          Navigator.pop(context);
+          return Future(() => true);
+        },
+        child: Responsive.isLarge(context) ? isWindowScaffold(context, userId) : isMobileScaffold(context));
+  }
+
+  Widget isMobileScaffold(BuildContext context) {
+    bool checkLogin = false;
+    if(userId == 'LogIn'){
+      checkLogin = true;
+    }
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Test Site Mobile'),
+          backgroundColor: Colors.white12,
+          actions: [
+            if (userId == 'LogIn')
+              IconButton(
+                  icon: Icon(Icons.login),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MobileLogin(
+                              userId: userId,
+                            )));
+                  }),
+            if (userId != 'LogIn')
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProFile(userId: userId)));
+                  },
+                  child: Text('$userId')),
+          ],
+        ),
+        backgroundColor: Colors.black,
+        body: SingleChildScrollView(
+            child: Container(
+                child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
+          MobileMainHead(),
+          Divider(
+            height: 5,
+            color: Colors.white12,
+            indent: 0,
+          ),
+          reloadCheck
+              ? MobileMainBody(
+                  userId: userId,
+                )
+              : Padding(padding: const EdgeInsets.only(top: 200), child: Center(child: CircularProgressIndicator()))
+        ]))),
+        floatingActionButton: checkLogin? null : FloatingActionButton(
+            onPressed: () {
+              mobileWriteContent(context);
+            },
+            child: Icon(Icons.add)));
+  }
+
+  Widget isWindowScaffold(BuildContext context, String userId) {
+    return Scaffold(
         backgroundColor: Colors.black,
         body: RawScrollbar(
-          thumbColor: Colors.white,
-          isAlwaysShown: true,
-          radius: Radius.circular(20),
-          thickness: 15,
-          child: SingleChildScrollView(physics: ScrollPhysics(), child: Responsive.isLarge(context) ? isWindow(context, userId) : isMobile(context)),
-        ),
-        // floatingActionButton: FloatingActionButton(
-        //         onPressed: () {
-        //           Future.delayed(Duration(seconds: 1)).then((value) => {
-        //             refresh()
-        //           });
-        //           print('floating button pass??????????????????????????????????????????????????');
-        //           setState(() {
-        //             resultRefresh = !resultRefresh;
-        //           });
-        //         },
-        //         child: Icon(Icons.add),
-        //       ),
-      ),
-    );
-  }
-
-  Widget isMobile(BuildContext context) {
-    floatingBTN = false;
-    appBarCenterTitle = false;
-    return Center(
-      child: Row(children: [
-        Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            color: Colors.red,
-            height: 150,
-            child: Text(
-              'The screen is small and cannot be displayed.',
-              textScaleFactor: 2,
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ), //contents list
-      ]),
-    );
-  }
-
-  Widget isWindow(BuildContext context, String userId) {
-    floatingBTN = true;
-    appBarCenterTitle = true;
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Divider(
-          height: 30,
-          color: Colors.black,
-          indent: 0,
-        ),
-        Header(
-          userId: userId,
-        ),
-        Divider(
-          height: 30,
-          color: Colors.white12,
-          indent: 0,
-        ),
-        reloadCheck
-            ? Body(
-                textFiledMap: getTextFiledMap,
-                userId: userId,
-              )
-            : Padding(
-                padding: const EdgeInsets.only(top: 200),
+            thumbColor: Colors.white,
+            isAlwaysShown: true,
+            radius: Radius.circular(20),
+            thickness: 15,
+            child: SingleChildScrollView(
+                physics: ScrollPhysics(),
                 child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-        Container(
-          height: 100,
-          color: Colors.black,
-          alignment: Alignment.center,
-          child: MainContentWidgetModel.myText('Test Corp')
-        ),
-      ],
-    ));
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Divider(
+                    height: 30,
+                    color: Colors.black,
+                    indent: 0,
+                  ),
+                  Header(
+                    userId: userId,
+                  ),
+                  Divider(
+                    height: 30,
+                    color: Colors.white12,
+                    indent: 0,
+                  ),
+                  reloadCheck
+                      ? Body(
+                          textFiledMap: getTextFiledMap,
+                          userId: userId,
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 200),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                  Container(height: 100, color: Colors.black, alignment: Alignment.center, child: MainContentWidgetModel.myText('Test Corp')),
+                ])))));
   }
 }
