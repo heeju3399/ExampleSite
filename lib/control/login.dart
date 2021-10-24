@@ -28,10 +28,6 @@ class LoginControl {
         await NodeServer.signIn(id, pass).then((value) =>
         {resultTitle = value.title, resultMessage = value.message,
           resultStateCode = value.stateCode});
-        print('=============================');
-        print('resultTitle : $resultTitle');
-        print('resultMessage : $resultMessage');
-        print('resultStateCode : $resultStateCode');
         if (resultTitle == 'pass') {
           //로그인 됨
           resultMap = {'title': resultTitle, 'message': resultMessage};

@@ -7,9 +7,6 @@ class SignupRequest {
   SignupRequest({ required this.title, required this.message, required this.stateCode, required this.name});
 }
 
-
-
-
 class SignupResponse {
   final String title;
   final String message;

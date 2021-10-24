@@ -47,24 +47,8 @@ class _ProFileState extends State<ProFile> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  '$userId 님의 글',
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(fontSize: 15, color: Colors.white)
-                )
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  '길게 누르면 지워집니다',
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(fontSize: 15, color: Colors.white)
-                )
-              ),
+              Padding(padding: const EdgeInsets.only(top: 10), child: Text('$userId 님의 글', maxLines: 1, overflow: TextOverflow.clip, style: TextStyle(fontSize: 15, color: Colors.white))),
+              Padding(padding: const EdgeInsets.only(top: 10), child: Text('길게 누르면 지워집니다', maxLines: 1, overflow: TextOverflow.clip, style: TextStyle(fontSize: 15, color: Colors.white))),
               Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Container(
@@ -249,26 +233,23 @@ class _ProFileState extends State<ProFile> {
                       }
                     }),
               )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 200,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Container(
-                    width: 250,
-                    height: 60,
-                    decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: TextButton(
-                        onPressed: () {
-                          contentAllDelete(contentId2);
-                        },
-                        child: Text('전체삭제', textScaleFactor: 2, style: TextStyle(color: Colors.white)))),
-              ),
-              Padding(
+          Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(
+              height: 200,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Container(
+                  width: 250,
+                  height: 60,
+                  decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: TextButton(
+                      onPressed: () {
+                        contentAllDelete(contentId2);
+                      },
+                      child: Text('전체삭제', textScaleFactor: 2, style: TextStyle(color: Colors.white)))),
+            ),
+            Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Container(
                     width: 250,
@@ -278,10 +259,8 @@ class _ProFileState extends State<ProFile> {
                         onPressed: () {
                           userDelete();
                         },
-                        child: Text('회원탈퇴', textScaleFactor: 2, style: TextStyle(color: Colors.white)))),
-              ),
-            ],
-          ),
+                        child: Text('회원탈퇴', textScaleFactor: 2, style: TextStyle(color: Colors.white)))))
+          ]),
           SizedBox(
             height: 100,
           )
@@ -307,20 +286,12 @@ class _ProFileState extends State<ProFile> {
             color: Colors.white12,
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('$utf8StringContent',
-                          maxLines: 5, overflow: TextOverflow.clip, style: TextStyle(color: MainContentWidgetModel.textColor))),
+                child: Column(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Padding(padding: const EdgeInsets.all(8.0), child: Text('$utf8StringContent', maxLines: 5, overflow: TextOverflow.clip, style: TextStyle(color: MainContentWidgetModel.textColor))),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Icon(Icons.favorite,size: 15, color: MainContentWidgetModel.iconColor),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(Icons.favorite, size: 15, color: MainContentWidgetModel.iconColor),
                       Text('  ( ${item.likeCount} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
@@ -332,16 +303,11 @@ class _ProFileState extends State<ProFile> {
                         child: Icon(Icons.comment, size: 15, color: MainContentWidgetModel.iconColor),
                       ),
                       Text('  ( ${item.children.length} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
-                          Padding(padding: const EdgeInsets.only(left: 30), child: MainContentWidgetModel.myText(item.createTime))
+                      Padding(padding: const EdgeInsets.only(left: 30), child: MainContentWidgetModel.myText(item.createTime))
                     ]),
                   ),
-
                 ]))));
   }
-  /////////////////
-  /////////////////
-  /////////////////
-
 
   Widget _mainBuild({required MainContentDataModel item, required int index, required BuildContext context}) {
     List<dynamic> aa = jsonDecode(item.content);

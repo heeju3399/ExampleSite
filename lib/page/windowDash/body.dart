@@ -33,38 +33,22 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    print('body pass');
     return Container(
-      color: Colors.black,
-      width: 1050,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
+        color: Colors.black,
+        width: 1050,
+        child: Column(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Container(
                 padding: EdgeInsets.all(15),
                 height: 100,
                 color: Colors.black,
-                child: Text(
-                  '검색내용 : ${widget.textFiledMap.values.join('getTextFiledMap')}',
-                  textScaleFactor: 2,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Container(
+                child: Text('검색내용 : ${widget.textFiledMap.values.join('getTextFiledMap')}', textScaleFactor: 2, style: TextStyle(color: Colors.white))),
+            Container(
                 padding: EdgeInsets.all(15),
                 height: 100,
                 color: Colors.black,
-                child: Text(
-                  '검색결과 : ${widget.textFiledMap.values.join('getTextFiledMap')}',
-                  textScaleFactor: 2,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
+                child: Text('검색결과 : ${widget.textFiledMap.values.join('getTextFiledMap')}', textScaleFactor: 2, style: TextStyle(color: Colors.white)))
+          ]),
           if (reloadCheck)
             FutureBuilder(
                 future: MainContentControl.getContent2(),
@@ -76,16 +60,9 @@ class _BodyState extends State<Body> {
                       child: CircularProgressIndicator(),
                     ));
                   } else {
-                    //print('0000');
-                    return AllContentPage(
-                      data: snap.data as List<MainContentDataModel>,
-                      userId: widget.userId,
-                    );
-                    return Container();
+                    return AllContentPage(data: snap.data as List<MainContentDataModel>, userId: widget.userId);
                   }
-                }),
-        ],
-      ),
-    );
+                })
+        ]));
   }
 }

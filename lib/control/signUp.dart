@@ -1,22 +1,19 @@
-
 import 'package:web/server/nodeServer.dart';
 
 class SignUpController {
-  static Future<Map> checkIdAndPassAndName({required String id,required String pass,required String name}) async {
-
+  static Future<Map> checkIdAndPassAndName({required String id, required String pass, required String name}) async {
     String resultTitle = '';
     String resultMessage = '';
-    int resultStateCode = 0;
+    int resultStateCode2 = 0;
     Map resultMap = Map();
-
     bool isKorean(String input) {
       bool isKorean = false;
       int inputToUniCode = input.codeUnits[0];
       isKorean = (inputToUniCode >= 12593 && inputToUniCode <= 12643)
           ? true
           : (inputToUniCode >= 44032 && inputToUniCode <= 55203)
-          ? true
-          : false;
+              ? true
+              : false;
       return isKorean;
     }
 
@@ -26,31 +23,26 @@ class SignUpController {
       bool idCheck = isKorean(id);
       bool passCheck = isKorean(pass);
       bool nameCheck = isKorean(name);
-      if(!idCheck && !passCheck && !nameCheck){
-        await NodeServer.signUp(id: id, name: name, pass: pass).then((value) => {
-          resultTitle = value.title,
-          resultMessage = value.message,
-          resultStateCode = value.stateCode
-        });
-        print('=============================');
-        print('resultTitle : $resultTitle');
-        print('resultMessage : $resultMessage');
-        print('resultStateCode : $resultStateCode');
-        if (resultTitle == 'doubleCheck') {//회원가입 안됨이유는 아이디 중복
-          resultMap = {'title':resultTitle, 'message':resultMessage};
-        } else if (resultTitle == 'no') {//회원가입 뭔가모를 에러로 안됨
-          resultMap = {'title':resultTitle, 'message':resultMessage};
-        }else if(resultTitle == 'pass'){//ok
-          resultMap = {'title':resultTitle, 'message':resultMessage};
-        }else{
-          resultMap = {'title':resultTitle, 'message':resultMessage};
+      if (!idCheck && !passCheck && !nameCheck) {
+        await NodeServer.signUp(id: id, name: name, pass: pass).then((value) => {resultTitle = value.title, resultMessage = value.message, resultStateCode2 = value.stateCode});
+
+        if (resultTitle == 'doubleCheck') {
+          //회원가입 안됨이유는 아이디 중복
+          resultMap = {'title': resultTitle, 'message': resultMessage};
+        } else if (resultTitle == 'no') {
+          //회원가입 뭔가모를 에러로 안됨
+          resultMap = {'title': resultTitle, 'message': resultMessage};
+        } else if (resultTitle == 'pass') {
+          //ok
+          resultMap = {'title': resultTitle, 'message': resultMessage};
+        } else {
+          resultMap = {'title': resultTitle, 'message': resultMessage};
         }
-      }else{
+      } else {
         resultMap = {'title': '입력 오류', 'message': '영어와 숫자만 입력해주세요'};
       }
     }
 
     return resultMap;
   }
-
 }

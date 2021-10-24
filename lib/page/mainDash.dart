@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web/model/mainContentTileColor.dart';
+import 'package:web/model/myWord.dart';
 import 'package:web/model/shared.dart';
 import 'package:web/page/user/mobileLogIn.dart';
 import 'package:web/page/user/profile.dart';
@@ -8,13 +9,11 @@ import '../responsive.dart';
 import 'mobileDash/content/mobileWriteContentPage.dart';
 import 'mobileDash/mobildMainBody.dart';
 import 'mobileDash/mobileMainHead.dart';
-
 import 'windowDash/body.dart';
 
 class MainDash extends StatefulWidget {
   const MainDash({Key? key, required this.userId}) : super(key: key);
   final String userId;
-  static String routeName = '/MAIN_DASH';
 
   static _MainDashState? of(BuildContext context) => context.findAncestorStateOfType<_MainDashState>();
 
@@ -26,10 +25,7 @@ class _MainDashState extends State<MainDash> {
   _MainDashState({required this.userId});
 
   String userId;
-  bool floatingBTN = false;
-  bool appBarCenterTitle = true;
-  final List<String> items = List<String>.generate(0, (i) => 'Item $i');
-  Map getTextFiledMap = {'getTextFiledMap': 'Empty'};
+  Map getTextFiledMap = {MyWord.GET_TEXT_FILED_MAP : MyWord.EMPTY};
   bool firstCheck = true;
   bool reloadCheck = true;
 
@@ -38,7 +34,6 @@ class _MainDashState extends State<MainDash> {
   }
 
   void reload() async {
-    print('pass **************************************************');
     setState(() {
       reloadCheck = false;
     });
@@ -49,7 +44,6 @@ class _MainDashState extends State<MainDash> {
   }
 
   set setChartPageValue(Map map) {
-    print('여기 통과????????????');
     getTextFiledString(map);
   }
 
@@ -65,7 +59,7 @@ class _MainDashState extends State<MainDash> {
       var firstKey = map.keys.first;
       String value = map.values.join(firstKey);
       print(value);
-      getTextFiledMap = {'getTextFiledMap': value};
+      getTextFiledMap = {MyWord.GET_TEXT_FILED_MAP: value};
       setState(() {});
     }
   }
@@ -80,10 +74,8 @@ class _MainDashState extends State<MainDash> {
 
   @override
   Widget build(BuildContext context) {
-    print('===Main dash build widget pass userID : $userId ===');
     return WillPopScope(
         onWillPop: () {
-          print('뭐지이건?');
           Navigator.pop(context);
           return Future(() => true);
         },
@@ -92,15 +84,15 @@ class _MainDashState extends State<MainDash> {
 
   Widget isMobileScaffold(BuildContext context) {
     bool checkLogin = false;
-    if(userId == 'LogIn'){
+    if(userId == MyWord.LOGIN){
       checkLogin = true;
     }
     return Scaffold(
         appBar: AppBar(
-          title: Text('Test Site Mobile'),
+          title: Text(MyWord.TEST_SITE),
           backgroundColor: Colors.white12,
           actions: [
-            if (userId == 'LogIn')
+            if (userId == MyWord.LOGIN)
               IconButton(
                   icon: Icon(Icons.login),
                   onPressed: () {
@@ -109,7 +101,7 @@ class _MainDashState extends State<MainDash> {
                               userId: userId,
                             )));
                   }),
-            if (userId != 'LogIn')
+            if (userId != MyWord.LOGIN)
               TextButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProFile(userId: userId)));

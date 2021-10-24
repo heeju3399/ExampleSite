@@ -19,64 +19,39 @@ class _MobileCommentPageState extends State<MobileCommentPage> {
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
-    print(' he : $height');
     List<dynamic> utf8List = jsonDecode(content.content);
-    List<int> ss = [];
+    List<int> intList = [];
     utf8List.forEach((element) {
-      ss.add(element);
+      intList.add(element);
     });
-    String contentString = utf8.decode(ss);
-
+    String contentString = utf8.decode(intList);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('덧글 페이지 지울 수 있지만 저장되지 않습니다',style: TextStyle(fontSize: 15),),
-        backgroundColor: Colors.white12,
-      ),
-      backgroundColor: Colors.black,
-      body: SizedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  '$contentString',
-                  textScaleFactor: 2,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-                child: Center(
-                    child: Container(
-                        width: 490,
-                        height: height - 140,
-                        alignment: Alignment.topCenter,
-                        child: ListView.builder(
+        appBar: AppBar(title: Text('덧글 페이지 지울 수 있지만 저장되지 않습니다', style: TextStyle(fontSize: 15)), backgroundColor: Colors.white12),
+        backgroundColor: Colors.black,
+        body: SizedBox(
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Padding(padding: EdgeInsets.all(20), child: Container(alignment: Alignment.center, child: Text('$contentString', textScaleFactor: 2, style: TextStyle(color: Colors.white)))),
+          SingleChildScrollView(
+              child: Center(
+                  child: Container(
+                      width: 490,
+                      height: height - 140,
+                      alignment: Alignment.topCenter,
+                      child: ListView.builder(
                           itemBuilder: (BuildContext context, int index) {
-                            //print('listView Build pass int index???? $index');
                             Map item = content.children[index];
                             MainCommentDataModel mainCommentDataModel = MainCommentDataModel.fromJson(item);
                             List<dynamic> utf8List2 = jsonDecode(mainCommentDataModel.comment);
-                            List<int> ss2 = [];
+                            List<int> intList2 = [];
                             utf8List2.forEach((element) {
-                              ss2.add(element);
+                              intList2.add(element);
                             });
-                            String commentString = utf8.decode(ss2);
-
+                            String commentString = utf8.decode(intList2);
                             return Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Card(
                                     child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.white,
-                                            )),
+                                        decoration: BoxDecoration(color: Colors.black, border: Border.all(width: 1, color: Colors.white)),
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, children: [
                                           Expanded(
                                               flex: 9,
@@ -88,22 +63,17 @@ class _MobileCommentPageState extends State<MobileCommentPage> {
                                               child: Padding(
                                                   padding: const EdgeInsets.all(8.0),
                                                   child: IconButton(
-                                                    icon: Icon(Icons.delete_forever),
-                                                    color: Colors.white,
-                                                    iconSize: 15,
-                                                    onPressed: () {
-                                                      content.children.removeAt(index);
-                                                      setState(() {});
-                                                    },
-                                                  )))
+                                                      icon: Icon(Icons.delete_forever),
+                                                      color: Colors.white,
+                                                      iconSize: 15,
+                                                      onPressed: () {
+                                                        content.children.removeAt(index);
+                                                        setState(() {});
+                                                      })))
                                         ]))));
                           },
                           itemCount: content.children.length,
-                          shrinkWrap: true,
-                        )))),
-          ],
-        ),
-      ),
-    );
+                          shrinkWrap: true))))
+        ])));
   }
 }

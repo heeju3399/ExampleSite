@@ -15,9 +15,11 @@ class MobileMainBody extends StatefulWidget {
 
 class _MobileMainBodyState extends State<MobileMainBody> {
   bool reloadCheck = true;
+
   set setBool(bool check) {
     reload();
   }
+
   void reload() async {
     setState(() {
       reloadCheck = false;
@@ -31,28 +33,19 @@ class _MobileMainBodyState extends State<MobileMainBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: Container(
-          width: 490,
-          child: reloadCheck ? FutureBuilder(
-              future: MainContentControl.getContent2(),
-              builder: (context, snap) {
-                if (!snap.hasData) {
-                  return Center(
-                      child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: CircularProgressIndicator(),
-                  ));
-                } else {
-                  return MobileAllContentPage(
-                    data: snap.data as List<MainContentDataModel>,
-                    userId: widget.userId,
-                  );
-                  return Container();
-                }
-              }) : LinearProgressIndicator()
-        ),
-      ),
-    );
+        child: Center(
+            child: Container(
+                width: 490,
+                child: reloadCheck
+                    ? FutureBuilder(
+                        future: MainContentControl.getContent2(),
+                        builder: (context, snap) {
+                          if (!snap.hasData) {
+                            return Center(child: Padding(padding: const EdgeInsets.all(18.0), child: CircularProgressIndicator()));
+                          } else {
+                            return MobileAllContentPage(data: snap.data as List<MainContentDataModel>, userId: widget.userId);
+                          }
+                        })
+                    : LinearProgressIndicator())));
   }
 }

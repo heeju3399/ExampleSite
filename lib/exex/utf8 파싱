@@ -1,8 +1,0 @@
-List<dynamic> aa = jsonDecode(mainContentDataModel.content);
-          List<int> intList = [];
-          aa.forEach((element) {
-            intList.add(element);
-          });
-          print('0000000000000000000000000');
-          String stringContent = utf8.decode(intList).toString();
-          print(stringContent);

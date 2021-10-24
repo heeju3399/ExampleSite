@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:web/control/content.dart';
 import 'package:web/model/content.dart';
 import 'package:web/model/mainContentTileColor.dart';
+import 'package:web/model/myWord.dart';
 import 'package:web/page/dialog/dialog.dart';
 import 'package:web/page/mobileDash/content/mobileCommentPage.dart';
 import 'package:web/page/mobileDash/mobildMainBody.dart';
@@ -25,29 +26,16 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
   final String userId;
   List<Widget> widgetList = [];
   List<TextEditingController> textEditingController = [];
-  Map viewCountMap = Map();
-  Map likeCountMap = Map();
-  Map badCountMap = Map();
-  int viewCount = 0;
-  int likeCount = 0;
-  int badCount = 0;
-  bool timerCancel = false;
   List<bool> favoriteOnHover = [];
   List<bool> badOnHover = [];
-  List<Map> refinedList = List.generate(0, (index) => {});
-  List<String> keyList = List.generate(0, (index) => '');
   List<int> valueList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   String exString1 = '';
-  int exInt1 = 0;
-  int count = 0;
   Map returnMap = Map();
   Map mapEx1 = Map();
   String utf8StringContent = '';
-  bool passpass = true;
 
   @override
   Widget build(BuildContext context) {
-    //print('처음부터 값이 들어오나? ${data.length}');
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
@@ -60,9 +48,9 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
   }
 
   Widget _mainBuild(MainContentDataModel item, int index, BuildContext context) {
-    List<dynamic> aa = jsonDecode(item.content);
+    List<dynamic> utf8List = jsonDecode(item.content);
     List<int> intList = [];
-    aa.forEach((element) {
+    utf8List.forEach((element) {
       intList.add(element);
     });
     utf8StringContent = utf8.decode(intList).toString();
@@ -70,70 +58,40 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: ExpansionTile(
+          collapsedBackgroundColor: MainContentWidgetModel.backgroundColor,
+          backgroundColor: Colors.black12,
+          trailing: Icon(Icons.comment, size: 15, color: MainContentWidgetModel.iconColor),
+          title: Padding(
+              padding: const EdgeInsets.all(1.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(width: 420, child: Text('$utf8StringContent', maxLines: 5, overflow: TextOverflow.clip, style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 15)))
+              ])),
           subtitle: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      Icon(Icons.favorite, size: 15, color: MainContentWidgetModel.iconColor),
-                      Text('  ( ${item.likeCount} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Icon(Icons.mood_bad, size: 15, color: MainContentWidgetModel.iconColor),
-                      ),
-                      Text('  ( ${item.badCount} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                        ),
-                        child: Icon(Icons.comment, size: 15, color: MainContentWidgetModel.iconColor),
-                      ),
-                      Text('  ( ${item.children.length} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
-                    ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 25),
-                          child: likeAndBadIcon(0, item, index),
-                        ), //이녀석의 성격은 좀 다름  셋할때 할것
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: likeAndBadIcon(1, item, index),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Icon(Icons.favorite, size: 15, color: MainContentWidgetModel.iconColor),
+                    Text('  ( ${item.likeCount} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
+                    Padding(padding: const EdgeInsets.only(left: 15), child: Icon(Icons.mood_bad, size: 15, color: MainContentWidgetModel.iconColor)),
+                    Text('  ( ${item.badCount} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
+                    Padding(padding: const EdgeInsets.only(left: 15), child: Icon(Icons.comment, size: 15, color: MainContentWidgetModel.iconColor)),
+                    Text('  ( ${item.children.length} )', style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 12)),
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Padding(padding: const EdgeInsets.only(left: 25), child: likeAndBadIcon(0, item, index)),
+                    Padding(padding: const EdgeInsets.only(left: 15), child: likeAndBadIcon(1, item, index))
+                  ])
+                ]),
                 Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                       Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        //child: MainContentWidgetModel.myText(item.userId),
-                        child: Text(
-                          item.userId,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: MainContentWidgetModel.myText(item.createTime),
-                      )
+                      Padding(padding: const EdgeInsets.only(left: 15), child: Text(item.userId, style: TextStyle(color: Colors.white))),
+                      Padding(padding: const EdgeInsets.only(left: 15), child: MainContentWidgetModel.myText(item.createTime))
                     ]))
               ])),
-          collapsedBackgroundColor: MainContentWidgetModel.backgroundColor,
-          backgroundColor: Colors.black12,
-          trailing: Icon(
-            Icons.comment,
-            size: 15,
-            color: MainContentWidgetModel.iconColor,
-          ),
           onExpansionChanged: (v) {
-            //print('열고 닫힐때 : $v');
             if (v) {
               int id = item.contentId;
               String sId = id.toString();
@@ -147,19 +105,6 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
               setState(() {});
             }
           },
-
-          title: Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container(
-                    width: 420,
-                    child: Text(
-                      '$utf8StringContent',
-                      maxLines: 5,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 15),
-                    )),
-              ])),
           children: tenComment(item, index, context)),
     );
   }
@@ -170,14 +115,11 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
     int contentId = item.contentId;
     return InkWell(
         onTap: () {
-          //flag 0 좋아여
-          //flag 1 싫어요
           MainContentControl.setLikeAndBad(contentId: contentId, flag: flag);
           MobileMainBody.of(context)!.setBool = false;
         },
         onHover: (v) {
           if (flag == 0 && v) {
-            print('0 pass $v');
             setState(() {
               favoriteOnHover[index] = true;
             });
@@ -203,55 +145,37 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
   }
 
   List<Widget> tenComment(MainContentDataModel item, int index, BuildContext context) {
-    //print('====all comment pass====');
     int itemChildrenLength = item.children.length;
-    //print('itemChildrenLength : $itemChildrenLength');
-    //MainCommentDataModel mainCommentDataModel = item.children[index];
-
     widgetList = [inputComment(item, index, context)];
-    //print('5555');
     for (int i = 0; i < 10; i++) {
       if (i < itemChildrenLength) {
         try {
           MainCommentDataModel mainCommentDataModel = MainCommentDataModel.fromJson(item.children[i]);
           widgetList.add(commentList(mainCommentDataModel, item, i));
-        } catch (e) {
-          print('tenComment err *_* ;; $e');
-        }
+        } catch (e) {}
       }
     }
     if (10 < itemChildrenLength) {
       widgetList.add(lastClickPage(index, item, context));
     }
-    //print('9999');
-    widgetList.add(Divider(
-      color: Colors.white,
-      height: 50,
-    ));
+    widgetList.add(Divider(color: Colors.white, height: 50));
     return widgetList;
   }
 
   Widget lastClickPage(int index, MainContentDataModel item, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 300,
-        height: 30,
-        child: ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
-          child: Text(
-            '덧글 전체보기',
-          ),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MobileCommentPage(content: item)));
-          },
-          //  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.orange)),
-        ),
-      ),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+            width: 300,
+            height: 30,
+            child: ElevatedButton(
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
+                child: Text('덧글 전체보기'),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MobileCommentPage(content: item)));
+                })));
   }
 
-  //댓글입력창
   Widget inputComment(MainContentDataModel item, int index, BuildContext context) {
     //print('input comment pass');
     return Container(
@@ -262,11 +186,9 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
                 controller: textEditingController[index],
                 autofocus: true,
                 onSubmitted: (v) {
-                  print('덧글 입력 : $v');
                   if (v != '' && v.isNotEmpty) {
-                    if (userId != 'LogIn') {
+                    if (userId != MyWord.LOGIN) {
                       MainContentControl.setComment(index: index, item: item, value: v, userId: userId, context: context);
-                      // MainDash.of(context)!.setState(() {});
                       MobileMainBody.of(context)!.setBool = false;
                       textEditingController[index].clear();
                     } else {
@@ -281,17 +203,9 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
                     hintText: '입력 후 엔터',
                     hintStyle: TextStyle(fontSize: 10, color: Colors.white),
                     labelStyle: TextStyle(fontSize: 10, color: Colors.white),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                      borderSide: BorderSide(width: 1, color: Colors.white),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                      borderSide: BorderSide(width: 1, color: Colors.white),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                    )))));
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(1.0)), borderSide: BorderSide(width: 1, color: Colors.white)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(1.0)), borderSide: BorderSide(width: 1, color: Colors.white)),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(1.0)))))));
   }
 
   Widget commentList(MainCommentDataModel comment, MainContentDataModel item, int order) {
@@ -311,25 +225,13 @@ class _MobileAllContentPageState extends State<MobileAllContentPage> {
             hoverColor: Colors.black12,
             selectedTileColor: MainContentWidgetModel.tileColor,
             tileColor: MainContentWidgetModel.tileColor,
-            //subtitle: ,
             title: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Container(
-                    child: Text(
-                      decodeComment,
-                      style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 15),
-                      maxLines: 5,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
+                  Container(child: Text(decodeComment, style: TextStyle(color: MainContentWidgetModel.textColor, fontSize: 15), maxLines: 5, overflow: TextOverflow.clip)),
                   myIdCheck
                       ? IconButton(
-                          icon: Icon(
-                            Icons.delete_forever,
-                            color: MainContentWidgetModel.iconColor,
-                            size: 15,
-                          ),
+                          icon: Icon(Icons.delete_forever, color: MainContentWidgetModel.iconColor, size: 15),
                           onPressed: () {
                             MainContentControl.deleteComment(contentId: item.contentId, userId: userId, order: order);
                             MobileMainBody.of(context)!.setBool = false;

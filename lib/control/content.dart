@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-
 import 'package:web/model/content.dart';
 import 'package:web/model/shared.dart';
 import 'package:web/server/nodeServer.dart';
@@ -24,7 +23,7 @@ class MainContentControl {
   }
 
   static Future<List<MainContentDataModel>> getUserContents({required String userId}) async {
-    //print('getUserContents pass');
+
     List response = [];
     List<MainContentDataModel> returnList = [];
     await NodeServer.getUserContents(userId: userId).then((value) => {response = value});
@@ -33,14 +32,12 @@ class MainContentControl {
         response = response.last;
         response.forEach((element) {
           MainContentDataModel mainContentDataModel = MainContentDataModel.fromJson(jsonDecode(jsonEncode(element)));
-          //print('$element');
           returnList.add(mainContentDataModel);
         });
       }
     } catch (e) {
-      print('오오오오오오오오오오억 *-* ($e)');
+      print('getUserContent-err($e)');
     }
-    //returnList = returnList.reversed.toList();
     return returnList;
   }
 
@@ -48,8 +45,6 @@ class MainContentControl {
     List response = [];
     List<MainContentDataModel> returnList = [];
     await NodeServer.getAllContents().then((value) => {response = value});
-    //print('///////////////////////////////');
-    //print(response);
     try {
       if (response.first == 'pass') {
         response = response.last;
@@ -59,7 +54,7 @@ class MainContentControl {
         });
       }
     } catch (e) {
-      print('오오오오오오오오오오억 *-* ($e)');
+      print('getContent2 err ($e)');
     }
     //returnList = returnList.reversed.toList();
     return returnList;
@@ -67,16 +62,9 @@ class MainContentControl {
 
   static Future<bool> setComment({required String value, required int index, required MainContentDataModel item, required String userId, required BuildContext context}) async {
     bool result = false;
-    // print('setcomment pass');
-    // print(' value  : $value');
-    // print(' index : $index');
-    // print(' userid : $userId');
-    // print(' contentId : ${item.contentId}');
-    // print('setcomment pass');
     var contentEncode = utf8.encode(value); //변환후 입력해야함
     MainCommentDataModel mainCommentDataModel = MainCommentDataModel(comment: '$contentEncode', userId: userId, createTime: '${DateTime.now()}', visible: '1');
     await NodeServer.setComment(comment: mainCommentDataModel, contentId: item.contentId).then((value) => {result = value});
-
     return result;
   }
 
@@ -85,7 +73,7 @@ class MainContentControl {
   }
 
   static void deleteContent(int contentId, String userId) {
-    NodeServer.deleteContent(contentId, userId); //bool 타입으로 리턴되는데 뭐쓰지?
+    NodeServer.deleteContent(contentId, userId);
   }
 
   static void deleteAllContent(int contentId, String userId) {
@@ -100,7 +88,7 @@ class MainContentControl {
     bool check = false;
     await NodeServer.userDelete(userId: userId).then((value) => {
       check = value
-    }); //bool 타입으로 리턴되는데 뭐쓰지?
+    });
     if(check){
       MyShared.setUserId('LogIn');
       html.window.location.reload();
@@ -109,78 +97,3 @@ class MainContentControl {
     }
   }
 }
-
-// print('=============================aaaaaaaaaaaaaaaaaaaaa====================================');
-// Map<dynamic, dynamic> response22 = jsonDecode(response.body);
-// print('response22 : $response22');
-// print('=================================================================');
-// if (response22.values.elementAt(0).contains('pass')) {
-//   Map  bb = response22.values.elementAt(1);
-//   print('===========================bbbbbbbbbbbbbbbbbbbbb======================================');
-//   print(bb);
-//   ResponseContent aa = ResponseContent.fromJson(bb);
-//   print('===========================ccccccccccccccccccccccccccc======================================');
-//
-//   print('/************************** ${aa.mainDashContent}');
-//   aa.mainDashContent.forEach((element) {
-//     print('00000000000000000000000000');
-//     print(element);
-//
-//     Map<dynamic, dynamic> usermap = jsonDecode(jsonEncode(element));
-//     print('==========================');
-//     print(usermap);
-//     MainContentDataModel mainContentDataModel = MainContentDataModel.fromJson(jsonDecode(jsonEncode(element)));
-//     returnList.add(mainContentDataModel);
-//     print('111111111111111111111111111');
-//     print(mainContentDataModel.viewCount);
-//     print('==========================');
-//     print(mainContentDataModel.badCount);
-//     print('==========================');
-//     print(mainContentDataModel.content);
-//     print('element /////////////// $element');
-//
-//   });
-//   print('============================dddddddddddddddddddddddddddd=====================================');
-//   List ss = aa.mainDashContent;
-//   print(ss);
-//returnList = aa.values.last;
-//print('resutn list  : $returnList');
-// responseContent = ResponseContent.fromJson(jsonDecode());
-// print('responseContent^%%%%%%%%%%%%%%%%%% : ${responseContent.mainDashContent}');
-
-// print('/////////////////////////////////////');
-//
-// try{
-//   list.forEach((element) {
-//     //print('list view $element');
-//     Map map = Map();
-//     map = element;
-//     map.forEach((key, value) {
-//       print(key);
-//       print(value);
-//     });
-//   });
-//   print('======================================');
-//   print(mainContentDataModel.toString());
-// }catch(e){
-//   print('에러남 : $e');
-// }
-
-//var contentDe = utf8.decode();
-//
-//List<MainContentDataModel> allContentItem = <MainContentDataModel>[
-//   MainContent(contentId: 4, createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[
-//     MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
-//   ], content: '오케이', badCount: 0, likeCount: 0, viewCount: 0),
-//   MainContent(contentId: 3,createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[
-//     MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '0505', comment: '우왕', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '4040', comment: 'ㅅㄴㅂ;;ㅇ,;ㅅ[게', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '9999', comment: '퀴즈탐험', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '9999', comment: '난알아요', userId: 'admin!!'),
-//     MainComment(visible: 1,createTime: '0049', comment: '우와 ', userId: 'admin!!'),
-//   ], content: '오로롱', badCount: 0, likeCount: 0, viewCount: 0),
-//   MainContent(contentId: 0 ,createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[], content: '홍금보닷', badCount: 0, likeCount: 10, viewCount: 0),
-//   MainContent(contentId: 1 ,createTime: '9999', userId: 'admin', visible: 1, children: <MainComment>[], content: '웃웃', badCount: 0, likeCount: 0, viewCount: 20),
-//];
